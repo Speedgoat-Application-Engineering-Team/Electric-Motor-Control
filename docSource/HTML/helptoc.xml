@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding="utf-8"?>
+<toc version="2.0">
+    <tocitem target="GettingStarted.html">Electric Motor Control Reference Application
+        <tocitem target="MIL.html">Model-in-the-Loop</tocitem>
+        <tocitem target="RCP.html">Rapid Control Prototyping</tocitem>        
+        <tocitem target="">Hardware-in-the-Loop Simulation (to be released in future version)</tocitem>
+        <tocitem target="">Deployment (to be released in future version)</tocitem>
+    </tocitem>
+</toc>
