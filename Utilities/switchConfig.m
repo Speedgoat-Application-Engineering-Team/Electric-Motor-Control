@@ -5,24 +5,18 @@ function switchConfig(cfg)
             setActiveConfigSet('FieldOrientedController_RCP','SLRT');
             load_system('FieldOrientedController');
             setActiveConfigSet('FieldOrientedController','SLRT');
-            load_system('ModeLogicModule');
-            setActiveConfigSet('ModeLogicModule','SLRT');
             save_system('FieldOrientedController_RCP',[],'SaveDirtyReferencedModels','on');
         case 'EC'
             load_system('FieldOrientedController_F28069');
             setActiveConfigSet('FieldOrientedController_F28069','EC');
             load_system('FieldOrientedController');
             setActiveConfigSet('FieldOrientedController','EC');
-            load_system('ModeLogicModule');
-            setActiveConfigSet('ModeLogicModule','EC');
             save_system('FieldOrientedController_F28069',[],'SaveDirtyReferencedModels','on');
         case 'MIL'
             load_system('FieldOrientedController_MIL');
             setActiveConfigSet('FieldOrientedController_MIL','Sim');
             load_system('FieldOrientedController');
             setActiveConfigSet('FieldOrientedController','Sim');
-            load_system('ModeLogicModule');
-            setActiveConfigSet('ModeLogicModule','Sim');
             load_system('PMSM_MCBS_Model');
             setActiveConfigSet('PMSM_MCBS_Model','Sim');
             load_system('PMSM_Simscape_Model'); 

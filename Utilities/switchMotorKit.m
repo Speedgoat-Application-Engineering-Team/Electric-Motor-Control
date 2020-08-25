@@ -16,8 +16,6 @@ function switchMotorKit(kit)
         
             load_system('FieldOrientedController');
             set_param('FieldOrientedController','DataDictionary','TIKitControllerData.sldd');
-            load_system('ModeLogicModule');
-            set_param('ModeLogicModule','DataDictionary','TIKitControllerData.sldd');
             load_system('PMSM_MCBS_Model');
             set_param('PMSM_MCBS_Model','DataDictionary','TIKitPlantData.sldd');
             load_system('PMSM_Simscape_Model');
@@ -39,8 +37,6 @@ function switchMotorKit(kit)
             
             load_system('FieldOrientedController');
             set_param('FieldOrientedController','DataDictionary','SGKitControllerData.sldd');
-            load_system('ModeLogicModule');
-            set_param('ModeLogicModule','DataDictionary','SGKitControllerData.sldd');
             load_system('PMSM_MCBS_Model');
             set_param('PMSM_MCBS_Model','DataDictionary','SGKitPlantData.sldd');
             load_system('PMSM_Simscape_Model');

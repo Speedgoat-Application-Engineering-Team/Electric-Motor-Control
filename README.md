@@ -29,8 +29,22 @@ The reference application leverages the Speedgoat [HIL Demo Ki](https://www.spee
 
 **Release notes**
 
+> **v1.1 - AUG 2020**
+ - Added new experiment and video: Characterize Motor Inertia and Friction using Simulink Design Optimization
+ - Changed offset and bias volatge parameters so to improve overcurrent protection in open loop mode
+ - Bugfix in App Designer instrument panel when using open loop mode
+ - Bugfix in Coastdown experiment
+ - Upgraded mode scheduler state chart
+ - Included new IO397 bitstream (CI02171) with improved PWM-ADC synchronization and phase frequency control
+
+
+----------
+
+
 > **v1.0 - JUN 2020**
  - First release
+
+
 
 
 ----------
