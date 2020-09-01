@@ -5,7 +5,6 @@ The Electric Motor Control reference application by Speedgoat, is aiming to prov
 
 The reference application leverages the Speedgoat [HIL Demo Ki](https://www.speedgoat.com/products-services/demo-kits/hil-with-ti-microcontroller)t  and the [Electric Motor Control Kit](https://www.speedgoat.com/products-services/demo-kits/pmsm-motor-control). The latter features a small 100W Maxon PMSM motor with integrated Hall Sensor and Encoder, and the Speedgoat 1.4 kW [Three-phase Inverter](https://www.speedgoat.com/products/pwr-tpi6020)  that supports switching frequencies up to 50kHz. These kits seamless operate with the cost-effective IO397 FGPA I/O Module, which supports PWM [generation](https://www.speedgoat.com/products/simulink-programmable-fpgas-fpga-code-module-pwm-generation) and [capture](https://www.speedgoat.com/products/simulink-programmable-fpgas-fpga-code-module-pwm-capture), with time resolution as low as 5ns, as well quadrature [encoding](https://www.speedgoat.com/products/simulink-programmable-fpgas-fpga-code-module-quadrature-encoder) and [decoding](https://www.speedgoat.com/products/simulink-programmable-fpgas-fpga-code-module-quadrature-decoder).
 
-[![View Electric Motor Control Reference Application on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/79535-electric-motor-control-reference-application)
 
 ----------
 
@@ -30,6 +29,11 @@ The reference application leverages the Speedgoat [HIL Demo Ki](https://www.spee
 
 **Release notes**
 
+> **v1.2 - AUG 2020**
+ - Centralized documentation access through Speedgoat Customer Portal
+
+----------
+
 > **v1.1 - AUG 2020**
  - Added new experiment and video: Characterize Motor Inertia and Friction using Simulink Design Optimization
  - Changed offset and bias volatge parameters so to improve overcurrent protection in open loop mode
@@ -38,14 +42,10 @@ The reference application leverages the Speedgoat [HIL Demo Ki](https://www.spee
  - Upgraded mode scheduler state chart
  - Included new IO397 bitstream (CI02171) with improved PWM-ADC synchronization and phase frequency control
 
-
 ----------
-
 
 > **v1.0 - JUN 2020**
  - First release
-
-
 
 
 ----------
