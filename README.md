@@ -29,6 +29,13 @@ The reference application leverages the Speedgoat [HIL Demo Ki](https://www.spee
 
 **Release notes**
 
+> **1.3.0 - AUG 2020**
+ - Added deployment models and experiment to deploy code to Texas Instrument C2000 hardware
+ - Added HIL models and experiments to perform HIL simulation
+
+----------
+
+
 > **1.2.0 - AUG 2020**
  - Centralized documentation access through Speedgoat Customer Portal
 
