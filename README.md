@@ -32,6 +32,7 @@ The reference application leverages the Speedgoat [HIL Demo Ki](https://www.spee
 > **1.3.0 - AUG 2020**
  - Added deployment models and experiment to deploy code to Texas Instrument C2000 hardware
  - Added HIL models and experiments to perform HIL simulation
+ - Removed support for deprecated PMSM kit
 
 ----------
 
