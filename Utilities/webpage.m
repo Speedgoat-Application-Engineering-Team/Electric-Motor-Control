@@ -1,1 +1,0 @@
-web('https://www.speedgoat.com/learn-support/reference-applications/electric-motor-control-reference-application')
