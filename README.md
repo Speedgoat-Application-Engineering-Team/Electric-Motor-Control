@@ -29,7 +29,17 @@ The reference application leverages the Speedgoat [HIL Demo Ki](https://www.spee
 
 **Release notes**
 
+<<<<<<< HEAD
 > **1.3.0 - AUG 2020**
+=======
+> **2.0.0 - Feb 2021**
+ - Support for MATLAB R2020b
+ - HIL Support for unit machine
+
+----------
+
+> **1.3.0 - JAN 2021**
+>>>>>>> R2020b_dev
  - Added deployment models and experiment to deploy code to Texas Instrument C2000 hardware
  - Added HIL models and experiments to perform HIL simulation
  - Removed support for deprecated PMSM kit

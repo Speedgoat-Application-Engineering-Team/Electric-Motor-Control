@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <HarnessInformation>
   <Harness>
@@ -201,3 +202,202 @@
     <P Name="FunctionInterfaceName"/>
   </Harness>
 </HarnessInformation>
+=======
+<?xml version="1.0" encoding="utf-8"?>
+<HarnessInformation>
+  <ModelMetadata>
+    <P Name="ModelUUID">78c48560-6a55-4511-aac2-12dff96b6b75</P>
+    <P Name="OwnerBDName">FieldOrientedController</P>
+  </ModelMetadata>
+  <Harness>
+    <P Name="Name">focVelocityEncoder_Harness_ClosedLoop</P>
+    <P Name="Description"/>
+    <P Name="CreatedBy"/>
+    <P Name="CreatedOn"/>
+    <P Name="ModifiedBy"/>
+    <P Name="LastSaved"/>
+    <P Name="Owner">1033</P>
+    <P Name="OwnerType">SS_HARNESS</P>
+    <P Name="OwnerPath">Controller_Modes/Mode_Scheduler</P>
+    <P Name="Directory"/>
+    <P Name="FileName">focVelocityEncoder_Harness_ClosedLoop.slx</P>
+    <P Name="SavedVersion">10.1</P>
+    <P Name="HarnessUUID">e09753d8-42a1-4a12-b9e8-bb93b0f636fe</P>
+    <P Name="HarnessConnectionsMap">0,1,2,3,4|0,1,2,3,4,5|0,0,0,0||</P>
+    <P Name="VerificationMode">0</P>
+    <P Name="HarnessOwnerCheckSum">0,0,0,0</P>
+    <P Name="RebuildOnOpen">true</P>
+    <P Name="RebuildModelData">false</P>
+    <P Name="Graphical">false</P>
+    <P Name="DriveFcnCallWithTS">true</P>
+    <P Name="ScheduleInitTermReset">false</P>
+    <P Name="AutoShapeInputs">false</P>
+    <P Name="SLDVCompatible">no</P>
+    <P Name="SynchronizationMode">0</P>
+    <P Name="IsImported">false</P>
+    <P Name="PostRebuildCB"/>
+    <P Name="IsCodeContext">false</P>
+    <P Name="SchedulerBlock">1</P>
+    <P Name="SourceTypeString">Test Sequence</P>
+    <P Name="SinkTypeString">Test Assessment</P>
+    <P Name="CustomSourcePath"/>
+    <P Name="CustomSinkPath"/>
+    <P Name="BlockSIDs">12|40|0|0|0|0|0</P>
+    <P Name="OpenGraphs"/>
+    <P Name="ExistingBuildFolder"/>
+    <P Name="FunctionInterfaceName"/>
+  </Harness>
+  <Harness>
+    <P Name="Name">focVelocityEncoder_Harness_ErrorToStandby</P>
+    <P Name="Description"/>
+    <P Name="CreatedBy"/>
+    <P Name="CreatedOn"/>
+    <P Name="ModifiedBy"/>
+    <P Name="LastSaved"/>
+    <P Name="Owner">1033</P>
+    <P Name="OwnerType">SS_HARNESS</P>
+    <P Name="OwnerPath">Controller_Modes/Mode_Scheduler</P>
+    <P Name="Directory"/>
+    <P Name="FileName">focVelocityEncoder_Harness_ErrorToStandby.slx</P>
+    <P Name="SavedVersion">10.1</P>
+    <P Name="HarnessUUID">bd26f872-72ac-4fda-9eef-494388532b77</P>
+    <P Name="HarnessConnectionsMap">0,1,2,3,4|0,1,2,3,4,5|0,0,0,0||</P>
+    <P Name="VerificationMode">0</P>
+    <P Name="HarnessOwnerCheckSum">0,0,0,0</P>
+    <P Name="RebuildOnOpen">true</P>
+    <P Name="RebuildModelData">false</P>
+    <P Name="Graphical">false</P>
+    <P Name="DriveFcnCallWithTS">true</P>
+    <P Name="ScheduleInitTermReset">false</P>
+    <P Name="AutoShapeInputs">false</P>
+    <P Name="SLDVCompatible">no</P>
+    <P Name="SynchronizationMode">0</P>
+    <P Name="IsImported">false</P>
+    <P Name="PostRebuildCB"/>
+    <P Name="IsCodeContext">false</P>
+    <P Name="SchedulerBlock">1</P>
+    <P Name="SourceTypeString">Test Sequence</P>
+    <P Name="SinkTypeString">Test Assessment</P>
+    <P Name="CustomSourcePath"/>
+    <P Name="CustomSinkPath"/>
+    <P Name="BlockSIDs">12|40|0|0|0|0|0</P>
+    <P Name="OpenGraphs"/>
+    <P Name="ExistingBuildFolder"/>
+    <P Name="FunctionInterfaceName"/>
+  </Harness>
+  <Harness>
+    <P Name="Name">focVelocityEncoder_Harness_OpenLoop</P>
+    <P Name="Description"/>
+    <P Name="CreatedBy"/>
+    <P Name="CreatedOn"/>
+    <P Name="ModifiedBy"/>
+    <P Name="LastSaved"/>
+    <P Name="Owner">1033</P>
+    <P Name="OwnerType">SS_HARNESS</P>
+    <P Name="OwnerPath">Controller_Modes/Mode_Scheduler</P>
+    <P Name="Directory"/>
+    <P Name="FileName">focVelocityEncoder_Harness_OpenLoop.slx</P>
+    <P Name="SavedVersion">10.1</P>
+    <P Name="HarnessUUID">389e9b53-6b3c-4a4f-bb8e-1616884cc518</P>
+    <P Name="HarnessConnectionsMap">0,1,2,3,4|0,1,2,3,4,5|0,0,0,0||</P>
+    <P Name="VerificationMode">0</P>
+    <P Name="HarnessOwnerCheckSum">0,0,0,0</P>
+    <P Name="RebuildOnOpen">true</P>
+    <P Name="RebuildModelData">false</P>
+    <P Name="Graphical">false</P>
+    <P Name="DriveFcnCallWithTS">true</P>
+    <P Name="ScheduleInitTermReset">false</P>
+    <P Name="AutoShapeInputs">false</P>
+    <P Name="SLDVCompatible">no</P>
+    <P Name="SynchronizationMode">0</P>
+    <P Name="IsImported">false</P>
+    <P Name="PostRebuildCB"/>
+    <P Name="IsCodeContext">false</P>
+    <P Name="SchedulerBlock">1</P>
+    <P Name="SourceTypeString">Test Sequence</P>
+    <P Name="SinkTypeString">Test Assessment</P>
+    <P Name="CustomSourcePath"/>
+    <P Name="CustomSinkPath"/>
+    <P Name="BlockSIDs">12|40|0|0|0|0|0</P>
+    <P Name="OpenGraphs"/>
+    <P Name="ExistingBuildFolder"/>
+    <P Name="FunctionInterfaceName"/>
+  </Harness>
+  <Harness>
+    <P Name="Name">FieldOrientedController_MIL</P>
+    <P Name="Description"/>
+    <P Name="CreatedBy">promero</P>
+    <P Name="CreatedOn">Thu Mar 07 00:26:25 2019</P>
+    <P Name="ModifiedBy">manuel.fedou</P>
+    <P Name="LastSaved">Wed Dec 02 10:54:04 2020</P>
+    <P Name="Owner">bd</P>
+    <P Name="OwnerType">BD_HARNESS</P>
+    <P Name="OwnerPath">.</P>
+    <P Name="Directory"/>
+    <P Name="FileName">FieldOrientedController_MIL.slx</P>
+    <P Name="SavedVersion">10.1</P>
+    <P Name="HarnessUUID">827bef8b-79da-4af8-8ece-d583c9e05956</P>
+    <P Name="HarnessConnectionsMap">||1868007120,32762,1868006976,32762||</P>
+    <P Name="VerificationMode">0</P>
+    <P Name="HarnessOwnerCheckSum">0,0,0,0</P>
+    <P Name="RebuildOnOpen">false</P>
+    <P Name="RebuildModelData">false</P>
+    <P Name="Graphical">false</P>
+    <P Name="DriveFcnCallWithTS">true</P>
+    <P Name="ScheduleInitTermReset">false</P>
+    <P Name="AutoShapeInputs">false</P>
+    <P Name="SLDVCompatible">no</P>
+    <P Name="SynchronizationMode">2</P>
+    <P Name="IsImported">true</P>
+    <P Name="PostRebuildCB"/>
+    <P Name="IsCodeContext">false</P>
+    <P Name="SchedulerBlock">0</P>
+    <P Name="SourceTypeString">Signal Editor</P>
+    <P Name="SinkTypeString">None</P>
+    <P Name="CustomSourcePath"/>
+    <P Name="CustomSinkPath"/>
+    <P Name="BlockSIDs">0|0|0|0|0|0|0</P>
+    <P Name="OpenGraphs"/>
+    <P Name="ExistingBuildFolder"/>
+    <P Name="FunctionInterfaceName"/>
+  </Harness>
+  <Harness>
+    <P Name="Name">FieldOrientedController_RCP</P>
+    <P Name="Description"/>
+    <P Name="CreatedBy">promero</P>
+    <P Name="CreatedOn">Thu Mar 07 00:26:25 2019</P>
+    <P Name="ModifiedBy">manuel.fedou</P>
+    <P Name="LastSaved">Tue Feb 23 16:24:24 2021</P>
+    <P Name="Owner">bd</P>
+    <P Name="OwnerType">BD_HARNESS</P>
+    <P Name="OwnerPath">.</P>
+    <P Name="Directory"/>
+    <P Name="FileName">FieldOrientedController_RCP.slx</P>
+    <P Name="SavedVersion">10.2</P>
+    <P Name="HarnessUUID">158f950f-4d7a-427e-8e15-b83e144ad5b6</P>
+    <P Name="HarnessConnectionsMap">||0,0,0,0||</P>
+    <P Name="VerificationMode">0</P>
+    <P Name="HarnessOwnerCheckSum">0,0,0,0</P>
+    <P Name="RebuildOnOpen">false</P>
+    <P Name="RebuildModelData">false</P>
+    <P Name="Graphical">false</P>
+    <P Name="DriveFcnCallWithTS">true</P>
+    <P Name="ScheduleInitTermReset">false</P>
+    <P Name="AutoShapeInputs">false</P>
+    <P Name="SLDVCompatible">no</P>
+    <P Name="SynchronizationMode">2</P>
+    <P Name="IsImported">true</P>
+    <P Name="PostRebuildCB"/>
+    <P Name="IsCodeContext">false</P>
+    <P Name="SchedulerBlock">0</P>
+    <P Name="SourceTypeString">Signal Editor</P>
+    <P Name="SinkTypeString">None</P>
+    <P Name="CustomSourcePath"/>
+    <P Name="CustomSinkPath"/>
+    <P Name="BlockSIDs">0|0|0|0|0|0|0</P>
+    <P Name="OpenGraphs"/>
+    <P Name="ExistingBuildFolder"/>
+    <P Name="FunctionInterfaceName"/>
+  </Harness>
+</HarnessInformation>
+>>>>>>> R2020b_dev
