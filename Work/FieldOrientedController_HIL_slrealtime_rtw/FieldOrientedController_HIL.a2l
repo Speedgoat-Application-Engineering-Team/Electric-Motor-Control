@@ -7,9 +7,9 @@
  *
  * Code generation for model "FieldOrientedController_HIL".
  *
- * Model version              : 2.16
+ * Model version              : 2.17
  * Simulink Coder version : 10.2 R2020b
- * C source code generated on : Wed Mar 03 11:08:21 2021
+ * C source code generated on : Wed Mar 03 11:57:31 2021
  *
  * Target selection: slrealtime.tlc
  * Embedded hardware selection: Intel->x86-64 (Linux 64)

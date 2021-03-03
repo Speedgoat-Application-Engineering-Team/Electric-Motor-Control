@@ -7,9 +7,9 @@
  *
  * Code generation for model "FieldOrientedController_HIL".
  *
- * Model version              : 2.16
+ * Model version              : 2.17
  * Simulink Coder version : 9.4 (R2020b) 29-Jul-2020
- * C++ source code generated on : Wed Mar  3 11:07:23 2021
+ * C++ source code generated on : Wed Mar  3 11:56:34 2021
  *
  * Target selection: slrealtime.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping

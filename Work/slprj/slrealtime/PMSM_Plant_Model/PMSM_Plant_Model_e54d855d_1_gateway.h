@@ -16,4 +16,4 @@ extern "C" {
 
 }
 #endif
-#endif                   /* #ifndef __PMSM_Plant_Model_e54d855d_1_gateway_h__ */
+#endif                                 /* #ifndef __PMSM_Plant_Model_e54d855d_1_gateway_h__ */

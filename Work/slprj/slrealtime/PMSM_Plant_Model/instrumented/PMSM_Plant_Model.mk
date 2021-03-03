@@ -2,7 +2,7 @@
 ## Makefile generated for component 'PMSM_Plant_Model'. 
 ## 
 ## Makefile     : PMSM_Plant_Model.mk
-## Generated on : Wed Mar 03 09:40:32 2021
+## Generated on : Wed Mar 03 11:45:16 2021
 ## Final product: ./PMSM_Plant_Model_rtwlib.a
 ## Product type : static library
 ## 
@@ -22,7 +22,7 @@ MAKEFILE                  = PMSM_Plant_Model.mk
 MATLAB_ROOT               = C:/PROGRA~1/MATLAB/R2020b
 MATLAB_BIN                = C:/PROGRA~1/MATLAB/R2020b/bin
 MATLAB_ARCH_BIN           = $(MATLAB_BIN)/win64
-START_DIR                 = C:/Workspace/GitHub/Electric-Motor-Control/P-Electric-Motor-Control/Work
+START_DIR                 = C:/WORKSP~1/GitHub/ELECTR~1/P-8BE5~1/Work
 SOLVER                    = 
 SOLVER_OBJ                = 
 CLASSIC_INTERFACE         = 0
