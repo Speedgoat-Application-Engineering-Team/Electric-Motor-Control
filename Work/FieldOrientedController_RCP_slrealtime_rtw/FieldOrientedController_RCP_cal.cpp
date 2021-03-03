@@ -809,10 +809,10 @@ FieldOrientedController_RCP_cal_type FieldOrientedController_RCP_cal_impl = {
    */
   1,
 
-  /* Expression: logical(1)
+  /* Expression: logical(0)
    * Referenced by: '<S1>/MotorOn'
    */
-  1,
+  0,
 
   /* Computed Parameter: enManualTestInputs_Value
    * Referenced by: '<Root>/enManualTestInputs'

@@ -9,7 +9,7 @@
  *
  * Model version              : 2.17
  * Simulink Coder version : 9.4 (R2020b) 29-Jul-2020
- * C++ source code generated on : Wed Mar  3 11:56:34 2021
+ * C++ source code generated on : Wed Mar  3 13:16:12 2021
  *
  * Target selection: slrealtime.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -23,14 +23,13 @@
 #include "rtwtypes.h"
 
 /* Model Code Variants */
-#ifndef DEFINED_TYPEDEF_FOR_physicalInputs_
-#define DEFINED_TYPEDEF_FOR_physicalInputs_
+#ifndef DEFINED_TYPEDEF_FOR_motorCommands_
+#define DEFINED_TYPEDEF_FOR_motorCommands_
 
 typedef struct {
-  real_T torqueLoad;
-  boolean_T connectCurrentSensor;
-  boolean_T motorBrake;
-} physicalInputs;
+  boolean_T inverterEnable;
+  uint16_T pwmCompare[3];
+} motorCommands;
 
 #endif
 
@@ -57,16 +56,6 @@ typedef struct {
 
 #endif
 
-#ifndef DEFINED_TYPEDEF_FOR_motorCommands_
-#define DEFINED_TYPEDEF_FOR_motorCommands_
-
-typedef struct {
-  boolean_T inverterEnable;
-  uint16_T pwmCompare[3];
-} motorCommands;
-
-#endif
-
 #ifndef DEFINED_TYPEDEF_FOR_controllerFeedback_
 #define DEFINED_TYPEDEF_FOR_controllerFeedback_
 
@@ -75,6 +64,17 @@ typedef struct {
   uint16_T encoderIndexFound;
   uint16_T encoderCount;
 } controllerFeedback;
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_physicalInputs_
+#define DEFINED_TYPEDEF_FOR_physicalInputs_
+
+typedef struct {
+  real_T torqueLoad;
+  boolean_T connectCurrentSensor;
+  boolean_T motorBrake;
+} physicalInputs;
 
 #endif
 

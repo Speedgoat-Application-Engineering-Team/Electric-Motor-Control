@@ -526,7 +526,7 @@ typedef struct {
   boolean_T enCurrentSensor_Value;     /* Expression: logical(1)
                                         * Referenced by: '<S1>/enCurrentSensor'
                                         */
-  boolean_T MotorOn_Value;             /* Expression: logical(1)
+  boolean_T MotorOn_Value;             /* Expression: logical(0)
                                         * Referenced by: '<S1>/MotorOn'
                                         */
   boolean_T enManualTestInputs_Value;

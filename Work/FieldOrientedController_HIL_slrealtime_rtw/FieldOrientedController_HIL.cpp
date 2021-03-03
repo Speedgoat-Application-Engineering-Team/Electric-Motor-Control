@@ -9,7 +9,7 @@
  *
  * Model version              : 2.17
  * Simulink Coder version : 9.4 (R2020b) 29-Jul-2020
- * C++ source code generated on : Wed Mar  3 11:56:34 2021
+ * C++ source code generated on : Wed Mar  3 13:16:12 2021
  *
  * Target selection: slrealtime.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -1022,7 +1022,7 @@ void FieldOrientedController_HIL_initialize(void)
           &FieldOrientedController_HIL_M->NonInlinedSFcns.Sfcn3.inputPortInfo[0]);
         _ssSetPortInfo2ForInputUnits(rts,
           &FieldOrientedController_HIL_M->NonInlinedSFcns.Sfcn3.inputPortUnits[0]);
-        ssSetInputPortUnit(rts, 0, 6);
+        ssSetInputPortUnit(rts, 0, 5);
         ssSetInputPortUnit(rts, 1, 0);
         _ssSetPortInfo2ForInputCoSimAttribute(rts,
           &FieldOrientedController_HIL_M->NonInlinedSFcns.Sfcn3.inputPortCoSimAttribute
