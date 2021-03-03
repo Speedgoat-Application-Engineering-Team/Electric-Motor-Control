@@ -1,0 +1,3291 @@
+/******************************************************************************
+ *
+ *  ASAP2 file:     FieldOrientedController_RCP.a2l
+ *
+ * Prerelease License - for engineering feedback and testing purposes
+ * only. Not for sale.
+ *
+ * Code generation for model "FieldOrientedController_RCP".
+ *
+ * Model version              : 2.10
+ * Simulink Coder version : 10.2 R2020b
+ * C source code generated on : Wed Mar 03 10:57:01 2021
+ *
+ * Target selection: slrealtime.tlc
+ * Embedded hardware selection: Intel->x86-64 (Linux 64)
+ * Code generation objectives: Unspecified
+ * Validation result: Not run
+ *
+ * (add additional file header information here)
+ *
+ ******************************************************************************/
+ASAP2_VERSION  1 71  
+/begin PROJECT ProjectName "Project Comment Goes Here"
+
+  /begin HEADER "Header Comments go here"
+
+  /end HEADER
+
+  /begin MODULE ModuleName  "Module Comment Goes Here"
+
+    /begin A2ML
+
+      struct Protocol_Layer {
+        uint;  /* XCP protocol layer version, current 0x100 */
+        uint;  /* T1 [ms] */
+        uint;  /* T2 [ms] */
+        uint;  /* T3 [ms] */
+        uint;  /* T4 [ms] */
+        uint;  /* T5 [ms] */
+        uint;  /* T6 [ms] */
+        uint;  /* T7 [ms] */
+        uchar;  /* MAX_CTO */
+        uint;  /* MAX_DTO */
+        enum {
+          "BYTE_ORDER_MSB_LAST" = 0,
+          "BYTE_ORDER_MSB_FIRST" = 1
+        };
+        enum {
+          "ADDRESS_GRANULARITY_BYTE" = 1,
+          "ADDRESS_GRANULARITY_WORD" = 2,
+          "ADDRESS_GRANULARITY_DWORD" = 4
+        };
+        taggedstruct {
+          ("OPTIONAL_CMD" enum {
+            "GET_COMM_MODE_INFO" = 251,
+            "GET_ID" = 250,
+            "SET_REQUEST" = 249,
+            "GET_SEED" = 248,
+            "UNLOCK" = 247,
+            "SET_MTA" = 246,
+            "UPLOAD" = 245,
+            "SHORT_UPLOAD" = 244,
+            "BUILD_CHECKSUM" = 243,
+            "TRANSPORT_LAYER_CMD" = 242,
+            "USER_CMD" = 241,
+            "DOWNLOAD" = 240,
+            "DOWNLOAD_NEXT" = 239,
+            "DOWNLOAD_MAX" = 238,
+            "SHORT_DOWNLOAD" = 237,
+            "MODIFY_BITS" = 236,
+            "SET_CAL_PAGE" = 235,
+            "GET_CAL_PAGE" = 234,
+            "GET_PAG_PROCESSOR_INFO" = 233,
+            "GET_SEGMENT_INFO" = 232,
+            "GET_PAGE_INFO" = 231,
+            "SET_SEGMENT_MODE" = 230,
+            "GET_SEGMENT_MODE" = 229,
+            "COPY_CAL_PAGE" = 228,
+            "CLEAR_DAQ_LIST" = 227,
+            "SET_DAQ_PTR" = 226,
+            "WRITE_DAQ" = 225,
+            "SET_DAQ_LIST_MODE" = 224,
+            "GET_DAQ_LIST_MODE" = 223,
+            "START_STOP_DAQ_LIST" = 222,
+            "START_STOP_SYNCH" = 221,
+            "GET_DAQ_CLOCK" = 220,
+            "READ_DAQ" = 219,
+            "GET_DAQ_PROCESSOR_INFO" = 218,
+            "GET_DAQ_RESOLUTION_INFO" = 217,
+            "GET_DAQ_LIST_INFO" = 216,
+            "GET_DAQ_EVENT_INFO" = 215,
+            "FREE_DAQ" = 214,
+            "ALLOC_DAQ" = 213,
+            "ALLOC_ODT" = 212,
+            "ALLOC_ODT_ENTRY" = 211,
+            "PROGRAM_START" = 210,
+            "PROGRAM_CLEAR" = 209,
+            "PROGRAM" = 208,
+            "PROGRAM_RESET" = 207,
+            "GET_PGM_PROCESSOR_INFO" = 206,
+            "GET_SECTOR_INFO" = 205,
+            "PROGRAM_PREPARE" = 204,
+            "PROGRAM_FORMAT" = 203,
+            "PROGRAM_NEXT" = 202,
+            "PROGRAM_MAX" = 201,
+            "PROGRAM_VERIFY" = 200
+          })*;
+          "COMMUNICATION_MODE_SUPPORTED" taggedunion {
+            "BLOCK" taggedstruct {
+              "SLAVE" ;
+              "MASTER" struct {
+                uchar;  /* MAX_BS */
+                uchar;  /* MIN_ST */
+              };
+            };
+            "INTERLEAVED" uchar;  /* QUEUE_SIZE */
+          };
+          "SEED_AND_KEY_EXTERNAL_FUNCTION" char[256];  /* Name of the Seed&Key function */
+        };
+      };
+
+      struct Daq {
+        enum {
+          "STATIC" = 0,
+          "DYNAMIC" = 1
+        };
+        uint;  /* MAX_DAQ */
+        uint;  /* MAX_EVENT_CHANNEL */
+        uchar;  /* MIN_DAQ */
+        enum {
+          "OPTIMISATION_TYPE_DEFAULT" = 0,
+          "OPTIMISATION_TYPE_ODT_TYPE_16" = 1,
+          "OPTIMISATION_TYPE_ODT_TYPE_32" = 2,
+          "OPTIMISATION_TYPE_ODT_TYPE_64" = 3,
+          "OPTIMISATION_TYPE_ODT_TYPE_ALIGNMENT" = 4,
+          "OPTIMISATION_TYPE_MAX_ENTRY_SIZE" = 5
+        };
+        enum {
+          "ADDRESS_EXTENSION_FREE" = 0,
+          "ADDRESS_EXTENSION_ODT" = 1,
+          "ADDRESS_EXTENSION_DAQ" = 3
+        };
+        enum {
+          "IDENTIFICATION_FIELD_TYPE_ABSOLUTE" = 0,
+          "IDENTIFICATION_FIELD_TYPE_RELATIVE_BYTE" = 1,
+          "IDENTIFICATION_FIELD_TYPE_RELATIVE_WORD" = 2,
+          "IDENTIFICATION_FIELD_TYPE_RELATIVE_WORD_ALIGNED" = 3
+        };
+        enum {
+          "GRANULARITY_ODT_ENTRY_SIZE_DAQ_BYTE" = 1,
+          "GRANULARITY_ODT_ENTRY_SIZE_DAQ_WORD" = 2,
+          "GRANULARITY_ODT_ENTRY_SIZE_DAQ_DWORD" = 4,
+          "GRANULARITY_ODT_ENTRY_SIZE_DAQ_DLONG" = 8
+        };
+        uchar;  /* MAX_ODT_ENTRY_SIZE_DAQ */
+        enum {
+          "NO_OVERLOAD_INDICATION" = 0,
+          "OVERLOAD_INDICATION_PID" = 1,
+          "OVERLOAD_INDICATION_EVENT" = 2
+        };
+        taggedstruct {
+          "PRESCALER_SUPPORTED" ;
+          "RESUME_SUPPORTED" ;
+          block "STIM" struct {
+            enum {
+              "GRANULARITY_ODT_ENTRY_SIZE_STIM_BYTE" = 1,
+              "GRANULARITY_ODT_ENTRY_SIZE_STIM_WORD" = 2,
+              "GRANULARITY_ODT_ENTRY_SIZE_STIM_DWORD" = 4,
+              "GRANULARITY_ODT_ENTRY_SIZE_STIM_DLONG" = 8
+            };
+            uchar;  /* MAX_ODT_ENTRY_SIZE_STIM */
+            taggedstruct {
+              "BIT_STIM_SUPPORTED" ;
+            };
+          };
+          block "TIMESTAMP_SUPPORTED" struct {
+            uint;  /* TIMESTAMP_TICKS */
+            enum {
+              "NO_TIME_STAMP" = 0,
+              "SIZE_BYTE" = 1,
+              "SIZE_WORD" = 2,
+              "SIZE_DWORD" = 4
+            };
+            enum {
+              "UNIT_1NS" = 0,
+              "UNIT_10NS" = 1,
+              "UNIT_100NS" = 2,
+              "UNIT_1US" = 3,
+              "UNIT_10US" = 4,
+              "UNIT_100US" = 5,
+              "UNIT_1MS" = 6,
+              "UNIT_10MS" = 7,
+              "UNIT_100MS" = 8,
+              "UNIT_1S" = 9
+            };
+            taggedstruct {
+              "TIMESTAMP_FIXED" ;
+            };
+          };
+          "PID_OFF_SUPPORTED" ;
+          (block "DAQ_LIST" struct {
+            uint;  /* DAQ_LIST_NUMBER */
+            taggedstruct {
+              "DAQ_LIST_TYPE" enum {
+                "DAQ" = 1,
+                "STIM" = 2,
+                "DAQ_STIM" = 3
+              };
+              "MAX_ODT" uchar;
+              "MAX_ODT_ENTRIES" uchar;
+              "FIRST_PID" uchar;
+              "EVENT_FIXED" uint;
+              block "PREDEFINED" taggedstruct {
+                (block "ODT" struct {
+                  uchar;  /* ODT number */
+                  taggedstruct {
+                    ("ODT_ENTRY" struct {
+                      uchar;  /* ODT_ENTRY number */
+                      ulong;  /* address of element */
+                      uchar;  /* address extension of element */
+                      uchar;  /* size of element [AG] */
+                      uchar;  /* BIT_OFFSET */
+                    })*;
+                  };
+                })*;
+              };
+            };
+          })*;
+          (block "EVENT" struct {
+            char[101];  /* EVENT_CHANNEL_NAME       */
+            char[9];  /* EVENT_CHANNEL_SHORT_NAME */
+            uint;  /* EVENT_CHANNEL_NUMBER     */
+            enum {
+              "DAQ" = 1,
+              "STIM" = 2,
+              "DAQ_STIM" = 3
+            };
+            uchar;  /* MAX_DAQ_LIST */
+            uchar;  /* TIME_CYCLE   */
+            uchar;  /* TIME_UNIT    */
+            uchar;  /* PRIORITY     */
+          })*;
+        };
+      };
+
+      taggedunion Daq_Event {
+        "FIXED_EVENT_LIST" taggedstruct {
+          ("EVENT" uint)*;
+        };
+        "VARIABLE" taggedstruct {
+          block "AVAILABLE_EVENT_LIST" taggedstruct {
+            ("EVENT" uint)*;
+          };
+          block "DEFAULT_EVENT_LIST" taggedstruct {
+            ("EVENT" uint)*;
+          };
+        };
+      };
+
+      struct Pag {
+        uchar;  /* MAX_SEGMENTS */
+        taggedstruct {
+          "FREEZE_SUPPORTED" ;
+        };
+      };
+
+      struct Pgm {
+        enum {
+          "PGM_MODE_ABSOLUTE" = 1,
+          "PGM_MODE_FUNCTIONAL" = 2,
+          "PGM_MODE_ABSOLUTE_AND_FUNCTIONAL" = 3
+        };
+        uchar;  /* MAX_SECTORS */
+        uchar;  /* MAX_CTO_PGM */
+        taggedstruct {
+          (block "SECTOR" struct {
+            char[101];  /* SECTOR_NAME */
+            uchar;  /* SECTOR_NUMBER */
+            ulong;  /* Address */
+            ulong;  /* Length  */
+            uchar;  /* CLEAR_SEQUENCE_NUMBER */
+            uchar;  /* PROGRAM_SEQUENCE_NUMBER */
+            uchar;  /* PROGRAM_METHOD */
+          })*;
+          "COMMUNICATION_MODE_SUPPORTED" taggedunion {
+            "BLOCK" taggedstruct {
+              "SLAVE" ;
+              "MASTER" struct {
+                uchar;  /* MAX_BS_PGM */
+                uchar;  /* MIN_ST_PGM */
+              };
+            };
+            "INTERLEAVED" uchar;  /* QUEUE_SIZE_PGM */
+          };
+        };
+      };
+
+      struct Segment {
+        uchar;  /* SEGMENT_NUMBER */
+        uchar;  /* number of pages */
+        uchar;  /* ADDRESS_EXTENSION */
+        uchar;  /* COMPRESSION_METHOD */
+        uchar;  /* ENCRYPTION_METHOD */
+        taggedstruct {
+          block "CHECKSUM" struct {
+            enum {
+              "XCP_ADD_11" = 1,
+              "XCP_ADD_12" = 2,
+              "XCP_ADD_14" = 3,
+              "XCP_ADD_22" = 4,
+              "XCP_ADD_24" = 5,
+              "XCP_ADD_44" = 6,
+              "XCP_CRC_16" = 7,
+              "XCP_CRC_16_CITT" = 8,
+              "XCP_CRC_32" = 9,
+              "XCP_USER_DEFINED" = 255
+            };
+            taggedstruct {
+              "MAX_BLOCK_SIZE" ulong;
+              "EXTERNAL_FUNCTION" char[256];  /* Name of the Checksum.DLL */
+            };
+          };
+          (block "PAGE" struct {
+            uchar;  /* PAGE_NUMBER */
+            enum {
+              "ECU_ACCESS_NOT_ALLOWED" = 0,
+              "ECU_ACCESS_WITHOUT_XCP_ONLY" = 1,
+              "ECU_ACCESS_WITH_XCP_ONLY" = 2,
+              "ECU_ACCESS_DONT_CARE" = 3
+            };
+            enum {
+              "XCP_READ_ACCESS_NOT_ALLOWED" = 0,
+              "XCP_READ_ACCESS_WITHOUT_ECU_ONLY" = 1,
+              "XCP_READ_ACCESS_WITH_ECU_ONLY" = 2,
+              "XCP_READ_ACCESS_DONT_CARE" = 3
+            };
+            enum {
+              "XCP_WRITE_ACCESS_NOT_ALLOWED" = 0,
+              "XCP_WRITE_ACCESS_WITHOUT_ECU_ONLY" = 1,
+              "XCP_WRITE_ACCESS_WITH_ECU_ONLY" = 2,
+              "XCP_WRITE_ACCESS_DONT_CARE" = 3
+            };
+            taggedstruct {
+              "INIT_SEGMENT" uchar;  /* references segment that initialises this page */
+            };
+          })*;
+          (block "ADDRESS_MAPPING" struct {
+            ulong;  /* source address */
+            ulong;  /* destination address */
+            ulong;  /* length */
+          })*;
+          "PGM_VERIFY" ulong;  /* verification value for PGM */
+        };
+      };
+
+      taggedstruct Common_Parameters {
+        block "PROTOCOL_LAYER" struct Protocol_Layer;
+        block "SEGMENT" struct Segment;
+        block "DAQ" struct Daq;
+        block "PAG" struct Pag;
+        block "PGM" struct Pgm;
+        block "DAQ_EVENT" taggedunion Daq_Event;
+      };
+
+      struct CAN_Parameters {
+        uint;  /* XCP on CAN version, currentl 0x0100 */
+        taggedstruct {
+          "CAN_ID_BROADCAST" ulong;  /* Auto-detection CAN-ID */
+          "CAN_ID_MASTER" ulong;  /* CMD/STIM CAN-ID */
+          "CAN_ID_SLAVE" ulong;  /* RES/ERR/EV/SERV/DAQ CAN-ID */
+          "BAUDRATE" ulong;  /* Baudrate in Hz */
+          "SAMPLE_POINT" uchar;  /* Sample point in  of bit time */
+          "SAMPLE_RATE" enum {
+            "SINGLE" = 1,
+            "TRIPLE" = 3
+          };
+          "BTL_CYCLES" uchar;  /* slots per bit time */
+          "SJW" uchar;
+          "SYNC_EDGE" enum {
+            "SINGLE" = 1,
+            "DUAL" = 2
+          };
+          "MAX_DLC_REQUIRED" ;  /* master to slave frames */
+          (block "DAQ_LIST_CAN_ID" struct {
+            uint;  /* reference to DAQ_LIST_NUMBER */
+            taggedstruct {
+              "VARIABLE" ;
+              "FIXED" ulong;  /* this DAQ_LIST always on this CAN_ID */
+            };
+          })*;
+        };
+      };
+
+      struct SxI_Parameters {
+        uint;  /* XCP on SxI version, currently 0x0100 */
+        ulong;  /* BAUDRATE [Hz] */
+        taggedstruct {
+          "ASYNCH_FULL_DUPLEX_MODE" struct {
+            enum {
+              "PARITY_NONE" = 0,
+              "PARITY_ODD" = 1,
+              "PARITY_EVEN" = 2
+            };
+            enum {
+              "ONE_STOP_BIT" = 1,
+              "TWO_STOP_BITS" = 2
+            };
+          };
+          "SYNCH_FULL_DUPLEX_MODE_BYTE" ;
+          "SYNCH_FULL_DUPLEX_MODE_WORD" ;
+          "SYNCH_FULL_DUPLEX_MODE_DWORD" ;
+          "SYNCH_MASTER_SLAVE_MODE_BYTE" ;
+          "SYNCH_MASTER_SLAVE_MODE_WORD" ;
+          "SYNCH_MASTER_SLAVE_MODE_DWORD" ;
+        };
+        enum {
+          "HEADER_LEN_BYTE" = 0,
+          "HEADER_LEN_CTR_BYTE" = 1,
+          "HEADER_LEN_FILL_BYTE" = 2,
+          "HEADER_LEN_WORD" = 3,
+          "HEADER_LEN_CTR_WORD" = 4,
+          "HEADER_LEN_FILL_WORD" = 5
+        };
+        enum {
+          "NO_CHECKSUM" = 0,
+          "CHECKSUM_BYTE" = 1,
+          "CHECKSUM_WORD" = 2
+        };
+      };
+
+      struct TCP_IP_Parameters {
+        uint;  /* XCP on TCP_IP version, currently 0x0100 */
+        uint;  /* PORT */
+        taggedunion {
+          "HOST_NAME" char[256];
+          "ADDRESS" char[15];
+        };
+      };
+
+      struct UDP_Parameters {
+        uint;  /* XCP on UDP version, currently 0x0100 */
+        uint;  /* PORT */
+        taggedunion {
+          "HOST_NAME" char[256];
+          "ADDRESS" char[15];
+        };
+      };
+
+      struct ep_parameters {
+        uchar;  /* ENDPOINT_NUMBER, not endpoint address */
+        enum {
+          "BULK_TRANSFER" = 2,
+          "INTERRUPT_TRANSFER" = 3
+        };
+        uint;  /* wMaxPacketSize: Maximum packet  
+ size of endpoint in bytes       */
+        uchar;  /* bInterval: polling of endpoint  */
+        enum {
+          "MESSAGE_PACKING_SINGLE" = 0,
+          "MESSAGE_PACKING_MULTIPLE" = 1,
+          "MESSAGE_PACKING_STREAMING" = 2
+        };
+        enum {
+          "ALIGNMENT_8_BIT" = 0,
+          "ALIGNMENT_16_BIT" = 1,
+          "ALIGNMENT_32_BIT" = 2,
+          "ALIGNMENT_64_BIT" = 3
+        };
+        taggedstruct {
+          "RECOMMENDED_HOST_BUFSIZE" uint;  /* Recommended size for the host 
+ buffer size. The size is defined
+ as multiple of wMaxPacketSize.  */
+        };
+      };  /* end of ep_parameters */
+
+      struct USB_Parameters {
+        uint;  /* XCP on USB version  
+ e.g. "1.0" = 0x0100 */
+        uint;  /* Vendor ID                       */
+        uint;  /* Product ID                      */
+        uchar;  /* Number of interface             */
+        enum {
+          "HEADER_LEN_BYTE" = 0,
+          "HEADER_LEN_CTR_BYTE" = 1,
+          "HEADER_LEN_FILL_BYTE" = 2,
+          "HEADER_LEN_WORD" = 3,
+          "HEADER_LEN_CTR_WORD" = 4,
+          "HEADER_LEN_FILL_WORD" = 5
+        };
+        taggedunion {
+          block "OUT_EP_CMD_STIM" struct ep_parameters;
+        };
+        taggedunion {
+          block "IN_EP_RESERR_DAQ_EVSERV" struct ep_parameters;
+        };
+        taggedstruct {
+          "ALTERNATE_SETTING_NO" uchar;  /* Number of alternate setting   */
+          "INTERFACE_STRING_DESCRIPTOR" char[101];
+          (block "OUT_EP_ONLY_STIM" struct ep_parameters)*;
+          (block "IN_EP_ONLY_DAQ" struct ep_parameters)*;
+          block "IN_EP_ONLY_EVSERV" struct ep_parameters;
+          (block "DAQ_LIST_USB_ENDPOINT" struct {
+            uint;  /* reference to DAQ_LIST_NUMBER          */
+            taggedstruct {
+              "FIXED_IN" uchar;  /* this DAQ list always                
+ ENDPOINT_NUMBER, not endpoint address */
+              "FIXED_OUT" uchar;  /* this STIM list always               
+ ENDPOINT_NUMBER, not endpoint address */
+            };
+          })*;  /* end of DAQ_LIST_USB_ENDPOINT */
+        };  /* end of optional */
+      };
+
+      struct SIMULINK_Parameters {
+        taggedstruct {
+          "MODEL_NAME" char[64];
+        };
+      };
+
+      enum packet_assignment_type {
+        "NOT_ALLOWED" = 0,
+        "FIXED" = 1,
+        "VARIABLE_INITIALISED" = 2,
+        "VARIABLE" = 3
+      };  /* end of packet_assignment_type */
+
+      struct buffer {
+        uchar;  /* FLX_BUF */
+        taggedstruct {
+          "MAX_FLX_LEN_BUF" taggedunion {
+            "FIXED" uchar;  /* constant value */
+            "VARIABLE" uchar;  /* initial value */
+          };  /* end of MAX_FLX_LEN_BUF */
+          block "LPDU_ID" taggedstruct {
+            "FLX_SLOT_ID" taggedunion {
+              "FIXED" uint;
+              "VARIABLE" taggedstruct {
+                "INITIAL_VALUE" uint;
+              };
+            };  /* end of FLX_SLOT_ID */
+            "OFFSET" taggedunion {
+              "FIXED" uchar;
+              "VARIABLE" taggedstruct {
+                "INITIAL_VALUE" uchar;
+              };
+            };  /* end of OFFSET */
+            "CYCLE_REPETITION" taggedunion {
+              "FIXED" uchar;
+              "VARIABLE" taggedstruct {
+                "INITIAL_VALUE" uchar;
+              };
+            };  /* end of CYCLE_REPETITION */
+            "CHANNEL" taggedunion {
+              "FIXED" enum {
+                "A" = 0,
+                "B" = 1
+              };
+              "VARIABLE" taggedstruct {
+                "INITIAL_VALUE" enum {
+                  "A" = 0,
+                  "B" = 1
+                };
+              };
+            };  /* end of CHANNEL */
+          };  /* end of LPDU_ID */
+          block "XCP_PACKET" taggedstruct {
+            "CMD" enum packet_assignment_type;  /* end of CMD     */
+            "RES_ERR" enum packet_assignment_type;  /* end of RES_ERR */
+            "EV_SERV" enum packet_assignment_type;  /* end of EV_SERV */
+            "DAQ" enum packet_assignment_type;  /* end of DAQ     */
+            "STIM" enum packet_assignment_type;  /* end of STIM    */
+          };  /* end of XCP_PACKET */
+        };
+      };  /* end of buffer */
+
+      struct FLX_Parameters {
+
+        uint;              /* XCP on FlexRay version  */
+                           /* e.g. "1.0" = 0x0100 */
+
+        uint;              /* T1_FLX [ms] */
+
+        char[256];         /* FIBEX-file */
+                           /* including CHI information */
+                           /* including extension */
+                           /* without path */
+
+        char[256];         /* Cluster-ID */
+
+        uchar;             /* NAX */
+
+        enum { 
+          "HEADER_NAX"              = 0,
+          "HEADER_NAX_FILL"         = 1,
+          "HEADER_NAX_CTR"          = 2,
+          "HEADER_NAX_FILL3"        = 3,
+          "HEADER_NAX_CTR_FILL2"    = 4,
+          "HEADER_NAX_LEN"          = 5,
+          "HEADER_NAX_CTR_LEN"      = 6,
+          "HEADER_NAX_FILL2_LEN"    = 7,
+          "HEADER_NAX_CTR_FILL_LEN" = 8
+        };
+        enum {
+          "PACKET_ALIGNMENT_8" = 0,
+          "PACKET_ALIGNMENT_16" = 1,
+          "PACKET_ALIGNMENT_32" = 2
+        };
+        taggedunion {
+          block "INITIAL_CMD_BUFFER" struct buffer;
+        };
+        taggedunion {
+          block "INITIAL_RES_ERR_BUFFER" struct buffer;
+        };
+        taggedstruct {
+          (block "POOL_BUFFER" struct buffer)*;
+        };
+      };
+
+      block "IF_DATA" taggedunion if_data {
+
+        "CANAPE_EXT" struct {
+          int;             /* version number */
+          taggedstruct {
+            "LINK_MAP" struct {
+              char[256];   /* segment name */
+              long;        /* base address of the segment */
+              uint;        /* address extension of the segment */
+              uint;        /* flag: address is relative to DS */
+              long;        /* offset of the segment address */
+              uint;        /* datatypValid */
+              uint;        /* enum datatyp */
+              uint;        /* bit offset of the segment */
+            };
+            "DISPLAY" struct {
+              long;        /* display color */
+              double;      /* minimal display value (phys)*/
+              double;      /* maximal display value (phys)*/
+            };
+            "VIRTUAL_CONVERSION" struct {
+              char[256];   /* name of the conversion formula */
+            };
+          };
+        };
+        "CANAPE_MODULE" struct {
+          taggedstruct {
+            ("RECORD_LAYOUT_STEPSIZE" struct {
+              char[256];   /* name of record layout*/
+              uint;        /* stepsize for FNC_VALUES */
+              uint;        /* stepsize for AXIS_PTS_X */
+              uint;        /* stepsize for AXIS_PTS_Y */
+              uint;        /* stepsize for AXIS_PTS_Z */
+              uint;        /* stepsize for AXIS_PTS_4 */
+              uint;        /* stepsize for AXIS_PTS_5 */
+            })*;
+          };
+        };
+        /*********************************************************/
+        /*   XCP                                                 */
+        /*********************************************************/
+        "XCP" struct {
+          taggedstruct Common_Parameters;  /* default parameters */
+          taggedstruct {
+            block "XCP_ON_CAN" struct {
+              struct CAN_Parameters;  /* specific for CAN */
+              taggedstruct Common_Parameters;  /* overruling of default */
+            };
+            block "XCP_ON_SxI" struct {
+              struct SxI_Parameters;  /* specific for SxI */
+              taggedstruct Common_Parameters;  /* overruling of default */
+            };
+            block "XCP_ON_TCP_IP" struct {
+              struct TCP_IP_Parameters;  /* specific for TCP_IP */
+              taggedstruct Common_Parameters;  /* overruling of default */
+            };
+            block "XCP_ON_UDP_IP" struct {
+              struct UDP_Parameters;  /* specific for UDP */
+              taggedstruct Common_Parameters;  /* overruling of default */
+            };
+            block "XCP_ON_USB" struct {
+              struct USB_Parameters;  /* specific for USB      */
+              taggedstruct Common_Parameters;  /* overruling of default */
+            };
+            block "XCP_ON_FLX" struct {
+              struct FLX_Parameters;  /* specific for FlexRay  */
+              taggedstruct Common_Parameters;  /* overruling of default */
+            };
+          };
+        };
+      };
+
+    /end A2ML
+
+
+
+    /begin IF_DATA XCP
+      
+      
+      /begin PROTOCOL_LAYER
+        0x0100
+        0x03E8
+        0x00C8
+        0x0000
+        0x0000
+        0x0000
+        0x0000
+        0x0000
+        0xFC
+        0x0578
+        BYTE_ORDER_MSB_LAST
+        ADDRESS_GRANULARITY_BYTE
+        OPTIONAL_CMD ALLOC_ODT_ENTRY
+        OPTIONAL_CMD ALLOC_ODT
+        OPTIONAL_CMD ALLOC_DAQ
+        OPTIONAL_CMD FREE_DAQ
+        OPTIONAL_CMD GET_DAQ_RESOLUTION_INFO
+        OPTIONAL_CMD GET_DAQ_PROCESSOR_INFO
+        OPTIONAL_CMD START_STOP_SYNCH
+        OPTIONAL_CMD START_STOP_DAQ_LIST
+        OPTIONAL_CMD SET_DAQ_LIST_MODE
+        OPTIONAL_CMD WRITE_DAQ
+        OPTIONAL_CMD SET_DAQ_PTR
+        OPTIONAL_CMD GET_CAL_PAGE
+        OPTIONAL_CMD SET_CAL_PAGE
+        OPTIONAL_CMD COPY_CAL_PAGE
+        OPTIONAL_CMD SHORT_DOWNLOAD
+        OPTIONAL_CMD DOWNLOAD_MAX
+        OPTIONAL_CMD DOWNLOAD
+        OPTIONAL_CMD SHORT_UPLOAD
+        OPTIONAL_CMD UPLOAD
+        OPTIONAL_CMD SET_MTA
+      /end PROTOCOL_LAYER
+
+      
+      /begin DAQ
+        DYNAMIC
+        0x0000
+        0x0080
+        0x00
+        OPTIMISATION_TYPE_DEFAULT
+        ADDRESS_EXTENSION_FREE
+        IDENTIFICATION_FIELD_TYPE_RELATIVE_WORD_ALIGNED
+        GRANULARITY_ODT_ENTRY_SIZE_DAQ_BYTE
+        0xFF
+        OVERLOAD_INDICATION_PID
+        PRESCALER_SUPPORTED 
+        
+        /begin STIM
+          GRANULARITY_ODT_ENTRY_SIZE_STIM_BYTE
+          0xFF
+          
+        /end STIM
+
+        /begin TIMESTAMP_SUPPORTED
+          0x0001
+          SIZE_DWORD
+          UNIT_1US
+          TIMESTAMP_FIXED 
+        /end TIMESTAMP_SUPPORTED
+
+        
+        /begin EVENT
+          "50 us"
+          "50 us"
+          0x0000
+          DAQ
+          0xFF
+          0x05
+          0x04
+          0x00
+        /end EVENT
+
+        
+        /begin EVENT
+          "1 ms"
+          "1 ms"
+          0x0001
+          DAQ
+          0xFF
+          0x01
+          0x06
+          0x00
+        /end EVENT
+
+      /end DAQ
+
+      
+      /begin XCP_ON_UDP_IP
+        0x0100
+        0x15B3
+        ADDRESS "172.16.19.52"
+      /end XCP_ON_UDP_IP
+
+    /end IF_DATA
+
+
+
+    /begin MOD_PAR "MOD PAR Comment Goes Here"
+
+       /begin MEMORY_SEGMENT FieldOrientedController_RCP_cal_impl
+       "FieldOrientedController_RCP_cal_impl"
+       DATA
+       FLASH
+       INTERN
+       0x0021E1A0
+       0x8A8
+       -1 -1 -1 -1 -1
+       /begin IF_DATA XCP
+         /begin SEGMENT
+            0x00
+            0x02
+            0x00
+            0x00
+            0x00
+            /begin PAGE
+              0x00
+              ECU_ACCESS_DONT_CARE
+              XCP_READ_ACCESS_DONT_CARE
+              XCP_WRITE_ACCESS_NOT_ALLOWED
+            /end PAGE
+            /begin PAGE
+              0x01
+              ECU_ACCESS_DONT_CARE
+              XCP_READ_ACCESS_DONT_CARE
+              XCP_WRITE_ACCESS_DONT_CARE
+            /end PAGE
+          /end SEGMENT
+        /end IF_DATA
+        /end MEMORY_SEGMENT
+       /begin MEMORY_SEGMENT FieldOrientedController_cal_impl
+       "FieldOrientedController_cal_impl"
+       DATA
+       FLASH
+       INTERN
+       0x0021ECE0
+       0x124
+       -1 -1 -1 -1 -1
+       /begin IF_DATA XCP
+         /begin SEGMENT
+            0x01
+            0x02
+            0x00
+            0x00
+            0x00
+            /begin PAGE
+              0x00
+              ECU_ACCESS_DONT_CARE
+              XCP_READ_ACCESS_DONT_CARE
+              XCP_WRITE_ACCESS_NOT_ALLOWED
+            /end PAGE
+            /begin PAGE
+              0x01
+              ECU_ACCESS_DONT_CARE
+              XCP_READ_ACCESS_DONT_CARE
+              XCP_WRITE_ACCESS_DONT_CARE
+            /end PAGE
+          /end SEGMENT
+        /end IF_DATA
+        /end MEMORY_SEGMENT
+
+    /end MOD_PAR
+
+    /begin MOD_COMMON  "Mod Common Comment Here"
+      BYTE_ORDER     MSB_LAST
+    /end MOD_COMMON
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.ConditionEncoder_cntsPerRevolution ""  
+    VALUE 0x0021E1A0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.ConditionEncoder_positiveDirection ""  
+    VALUE 0x0021E1A8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.Constant_Value ""  
+    VALUE 0x0021EA38 Scalar_ULONG 0 FieldOrientedController_RCP_CM_uint32 0 2147483646  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.Constant_Value_h ""  
+    VALUE 0x0021EA3E Scalar_BOOLEAN 0 FieldOrientedController_RCP_CM_logical 0 1  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.Digitaloutput_P1 ""  
+    VALUE 0x0021E478 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.Digitaloutput_P2 ""  
+    VALUE 0x0021E490 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.Digitaloutput_P3 ""  
+    VAL_BLK 0x0021E4A8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.Digitaloutput_P4 ""  
+    VALUE 0x0021E4D0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.Digitaloutput_P5 ""  
+    VAL_BLK 0x0021E4E8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.Digitaloutput_P6 ""  
+    VAL_BLK 0x0021E510 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.Digitaloutput_P7 ""  
+    VALUE 0x0021E538 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.Digitaloutput_P8 ""  
+    VALUE 0x0021E550 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.Gain_Gain ""  
+    VALUE 0x0021EA3C Scalar_UWORD 0 FieldOrientedController_RCP_CM_ufix16_En26 0.0 0.00097655  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.IO397AnalogInput_P1 ""  
+    VALUE 0x0021E1C0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.IO397AnalogInput_P2 ""  
+    VALUE 0x0021E1D8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.IO397AnalogInput_P3 ""  
+    VAL_BLK 0x0021E1F0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        2 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.IO397AnalogInput_P4 ""  
+    VALUE 0x0021E210 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.IO397AnalogInput_P5 ""  
+    VALUE 0x0021E228 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.IO397AnalogInput_P6 ""  
+    VALUE 0x0021E240 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.IO397AnalogInput_P7 ""  
+    VALUE 0x0021E258 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.MotorOn_Value ""  
+    VALUE 0x0021EA41 Scalar_BOOLEAN 0 FieldOrientedController_RCP_CM_logical 0 1  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P1 ""  
+    VALUE 0x0021E578 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P10 ""  
+    VAL_BLK 0x0021E690 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P11 ""  
+    VALUE 0x0021E6B8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P12 ""  
+    VALUE 0x0021E6D0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P13 ""  
+    VALUE 0x0021E6E8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P14 ""  
+    VALUE 0x0021E700 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P15 ""  
+    VAL_BLK 0x0021E718 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P16 ""  
+    VAL_BLK 0x0021E740 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P17 ""  
+    VAL_BLK 0x0021E768 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P18 ""  
+    VAL_BLK 0x0021E790 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P19 ""  
+    VAL_BLK 0x0021E7B8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P2 ""  
+    VALUE 0x0021E590 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P20 ""  
+    VAL_BLK 0x0021E7E0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P21 ""  
+    VAL_BLK 0x0021E808 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P22 ""  
+    VAL_BLK 0x0021E830 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P23 ""  
+    VAL_BLK 0x0021E858 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P24 ""  
+    VAL_BLK 0x0021E880 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P25 ""  
+    VALUE 0x0021E8A8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P26 ""  
+    VALUE 0x0021E8C0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P27 ""  
+    VALUE 0x0021E8D8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P28 ""  
+    VALUE 0x0021E8F0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P29 ""  
+    VAL_BLK 0x0021E908 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P3 ""  
+    VAL_BLK 0x0021E5A8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P30 ""  
+    VAL_BLK 0x0021E930 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P31 ""  
+    VALUE 0x0021E958 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P32 ""  
+    VALUE 0x0021E970 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P33 ""  
+    VAL_BLK 0x0021E988 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P34 ""  
+    VAL_BLK 0x0021E9B0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P35 ""  
+    VAL_BLK 0x0021E9D8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P36 ""  
+    VALUE 0x0021EA00 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P37 ""  
+    VALUE 0x0021EA18 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P4 ""  
+    VALUE 0x0021E5D0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P5 ""  
+    VALUE 0x0021E5E8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P6 ""  
+    VAL_BLK 0x0021E600 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P7 ""  
+    VAL_BLK 0x0021E628 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P8 ""  
+    VAL_BLK 0x0021E650 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.PWMgeneration5_P9 ""  
+    VALUE 0x0021E678 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.QAD3_P1 ""  
+    VALUE 0x0021E270 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.QAD3_P10 ""  
+    VALUE 0x0021E348 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.QAD3_P11 ""  
+    VALUE 0x0021E360 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.QAD3_P12 ""  
+    VALUE 0x0021E378 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.QAD3_P13 ""  
+    VALUE 0x0021E390 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.QAD3_P14 ""  
+    VALUE 0x0021E3A8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.QAD3_P15 ""  
+    VALUE 0x0021E3C0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.QAD3_P16 ""  
+    VALUE 0x0021E3D8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.QAD3_P17 ""  
+    VALUE 0x0021E3F0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.QAD3_P18 ""  
+    VALUE 0x0021E408 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.QAD3_P19 ""  
+    VALUE 0x0021E420 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.QAD3_P2 ""  
+    VALUE 0x0021E288 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.QAD3_P20 ""  
+    VALUE 0x0021E438 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.QAD3_P21 ""  
+    VALUE 0x0021E450 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.QAD3_P3 ""  
+    VALUE 0x0021E2A0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.QAD3_P4 ""  
+    VALUE 0x0021E2B8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.QAD3_P5 ""  
+    VALUE 0x0021E2D0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.QAD3_P6 ""  
+    VALUE 0x0021E2E8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.QAD3_P7 ""  
+    VALUE 0x0021E300 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.QAD3_P8 ""  
+    VALUE 0x0021E318 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.QAD3_P9 ""  
+    VALUE 0x0021E330 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.Saturation_LowerSat ""  
+    VALUE 0x0021E560 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.Saturation_UpperSat ""  
+    VALUE 0x0021E558 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.UnitDelay_InitialCondition ""  
+    VALUE 0x0021E460 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.commandType_Value ""  
+    VALUE 0x0021EA30 Scalar_SLONG 0 FieldOrientedController_RCP_CM_commandTypeEnum 0 3  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.enCurrentSensor_Value ""  
+    VALUE 0x0021EA40 Scalar_BOOLEAN 0 FieldOrientedController_RCP_CM_logical 0 1  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.enManualTestInputs_Value ""  
+    VALUE 0x0021EA42 Scalar_BOOLEAN 0 FieldOrientedController_RCP_CM_logical 0 1  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.rstInvtrFlt_Value ""  
+    VALUE 0x0021EA20 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.torqueLoad_Value ""  
+    VALUE 0x0021EA28 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.userInputs1_InitialCondition ""  
+    VALUE 0x0021EA3F Scalar_BOOLEAN 0 FieldOrientedController_RCP_CM_logical 0 1  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.userInputs_InitialCondition ""  
+    VALUE 0x0021E458 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_RCP_cal_impl.velocityCmd_Value ""  
+    VALUE 0x0021EA34 Scalar_FLOAT32_IEEE 0 FieldOrientedController_RCP_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Alpha_Gain_Gain ""  
+    VALUE 0x0021ED50 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Beta_Gain_Gain ""  
+    VALUE 0x0021ED54 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Constant1_Value ""  
+    VALUE 0x0021EDB0 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Constant_Value ""  
+    VALUE 0x0021ED80 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Constant_Value_g ""  
+    VALUE 0x0021EDA8 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Constant_Value_gk ""  
+    VALUE 0x0021EE02 Scalar_BOOLEAN 0 FieldOrientedController_CM_boolean 0 1  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Constant_Value_j ""  
+    VAL_BLK 0x0021ECEC Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Continue_Count_Value ""  
+    VALUE 0x0021ED14 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.D_Command_Value ""  
+    VALUE 0x0021ED58 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Delay1_InitialCondition ""  
+    VALUE 0x0021ED3C Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Delay1_InitialCondition_f ""  
+    VALUE 0x0021EE03 Scalar_BOOLEAN 0 FieldOrientedController_CM_boolean 0 1  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Delay1_InitialCondition_n ""  
+    VALUE 0x0021EDFF Scalar_BOOLEAN 0 FieldOrientedController_CM_boolean 0 1  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Delay1_InitialCondition_p ""  
+    VALUE 0x0021EDFD Scalar_BOOLEAN 0 FieldOrientedController_CM_boolean 0 1  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Delay2_InitialCondition ""  
+    VALUE 0x0021EDFE Scalar_BOOLEAN 0 FieldOrientedController_CM_boolean 0 1  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Delay2_InitialCondition_k ""  
+    VALUE 0x0021EE00 Scalar_BOOLEAN 0 FieldOrientedController_CM_boolean 0 1  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Delay3_InitialCondition ""  
+    VALUE 0x0021EE01 Scalar_BOOLEAN 0 FieldOrientedController_CM_boolean 0 1  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Delay4_InitialCondition ""  
+    VALUE 0x0021EDE4 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Delay_InitialCondition ""  
+    VALUE 0x0021ED2C Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Delay_InitialCondition_d ""  
+    VALUE 0x0021ED90 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Delay_InitialCondition_i ""  
+    VALUE 0x0021ED34 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Delay_InitialCondition_if ""  
+    VALUE 0x0021ED88 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Delay_InitialCondition_j ""  
+    VALUE 0x0021EDA0 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Detect_Change_vinit ""  
+    VALUE 0x0021ED08 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Direct_Voltage_Value ""  
+    VALUE 0x0021ED84 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.FilterTs15mS_DenCoef ""  
+    VAL_BLK 0x0021ECF8 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+    MATRIX_DIM                        2 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.FilterTs15mS_InitialStates ""  
+    VALUE 0x0021EDF0 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.FilterTs15mS_NumCoef ""  
+    VALUE 0x0021EDEC Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Gain1_Gain ""  
+    VALUE 0x0021ED68 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Gain1_Gain_f ""  
+    VALUE 0x0021ED9C Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Gain_Gain ""  
+    VAL_BLK 0x0021ECE0 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Gain_Gain_d ""  
+    VALUE 0x0021ED98 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Gain_Gain_f ""  
+    VALUE 0x0021EDA4 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Gain_Gain_k ""  
+    VALUE 0x0021ED8C Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Gain_Gain_m ""  
+    VALUE 0x0021ED64 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Gain_Gain_m1 ""  
+    VALUE 0x0021ED6C Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Integrator_gainval ""  
+    VALUE 0x0021EDB4 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Last_Valid_Position_Delta_InitialCondition ""  
+    VALUE 0x0021EDE8 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Merge_InitialOutput ""  
+    VALUE 0x0021EDE0 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Neg_Pi_Value ""  
+    VALUE 0x0021ED28 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Neg_Pi_Value_j ""  
+    VALUE 0x0021EDD0 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.PI_Value ""  
+    VALUE 0x0021ED30 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.PI_Value_p ""  
+    VALUE 0x0021EDD4 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Position_At_Zero_Count_Valid_Y0 ""  
+    VALUE 0x0021EDFC Scalar_BOOLEAN 0 FieldOrientedController_CM_boolean 0 1  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Q_Current_Command_Y0 ""  
+    VALUE 0x0021EDAC Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.RateTransition_InitialCondition ""  
+    VALUE 0x0021EDF4 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Reset_Count_Value ""  
+    VALUE 0x0021ED0C Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Sample_Frequency_Gain ""  
+    VALUE 0x0021ED38 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Sample_Time_Gain ""  
+    VALUE 0x0021ED44 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Sample_Time_Gain_a ""  
+    VALUE 0x0021ED4C Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Saturation_LowerSat ""  
+    VALUE 0x0021EDF8 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Stop_Count_Value ""  
+    VALUE 0x0021ED10 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Two_Pi1_Value ""  
+    VALUE 0x0021ED94 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Two_Pi1_Value_a ""  
+    VALUE 0x0021EDD8 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Two_Pi2_Value ""  
+    VALUE 0x0021ED24 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Two_Pi2_Value_l ""  
+    VALUE 0x0021ED74 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Two_Pi2_Value_m ""  
+    VALUE 0x0021EDC0 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Two_Pi2_Value_p ""  
+    VALUE 0x0021EDCC Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Two_Pi_Value ""  
+    VALUE 0x0021ED1C Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Two_Pi_Value_d ""  
+    VALUE 0x0021EDC8 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Two_Pi_Value_f ""  
+    VALUE 0x0021EDBC Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Two_Pi_Value_h ""  
+    VALUE 0x0021EDDC Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Two_Pi_Value_k ""  
+    VALUE 0x0021ED70 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Two_Pi_Value_o ""  
+    VALUE 0x0021ED20 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Unit_Delay_InitialCondition ""  
+    VALUE 0x0021ED5C Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Unit_Delay_InitialCondition_g ""  
+    VALUE 0x0021ED60 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Velocity_PID_Controller_InitialConditionForIntegrator ""  
+    VALUE 0x0021ED00 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Velocity_PID_Controller_LowerSaturationLimit ""  
+    VALUE 0x0021ED04 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.ZeroGain_Gain ""  
+    VALUE 0x0021EDB8 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Zero_During_Calibration_Value ""  
+    VALUE 0x0021ED18 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Zero_Value ""  
+    VALUE 0x0021ED40 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Zero_Value_b ""  
+    VALUE 0x0021ED78 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Zero_Value_c ""  
+    VALUE 0x0021ED7C Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Zero_Value_f ""  
+    VALUE 0x0021EDC4 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_cal_impl.Zero_Value_m ""  
+    VALUE 0x0021ED48 Scalar_FLOAT32_IEEE 0 FieldOrientedController_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_PolePairs ""  
+    VALUE 0x0021EAF8 Scalar_FLOAT32_IEEE 0 FieldOrientedController_RCP_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramAdcAmperePerTransducerVolt ""  
+    VAL_BLK 0x0021EAF0 Scalar_FLOAT32_IEEE 0 FieldOrientedController_RCP_CM_single -3.4E+38 3.4E+38  
+    MATRIX_DIM                        2 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramAdcTransducerVoltAtZeroAmpere ""  
+    VAL_BLK 0x0021EAE8 Scalar_FLOAT32_IEEE 0 FieldOrientedController_RCP_CM_single -3.4E+38 3.4E+38  
+    MATRIX_DIM                        2 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramCurrentControlI ""  
+    VALUE 0x0021EAE0 Scalar_FLOAT32_IEEE 0 FieldOrientedController_RCP_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramCurrentControlP ""  
+    VALUE 0x0021EADC Scalar_FLOAT32_IEEE 0 FieldOrientedController_RCP_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramCurrentControlSatVoltage ""  
+    VALUE 0x0021EAD8 Scalar_FLOAT32_IEEE 0 FieldOrientedController_RCP_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramEncoderCalibrationDuration ""  
+    VALUE 0x0021EAD4 Scalar_FLOAT32_IEEE 0 FieldOrientedController_RCP_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramEncoderCalibrationMaxError ""  
+    VALUE 0x0021EAD0 Scalar_FLOAT32_IEEE 0 FieldOrientedController_RCP_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramEncoderCalibrationVoltage ""  
+    VALUE 0x0021EACC Scalar_FLOAT32_IEEE 0 FieldOrientedController_RCP_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramEncoderRotorPositionAtZeroCount ""  
+    VALUE 0x0021EAC8 Scalar_FLOAT32_IEEE 0 FieldOrientedController_RCP_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramEncoderRotorPositionPerCount ""  
+    VALUE 0x0021EAC4 Scalar_FLOAT32_IEEE 0 FieldOrientedController_RCP_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramOpenLoopVelocityAcceleration ""  
+    VALUE 0x0021EAC0 Scalar_FLOAT32_IEEE 0 FieldOrientedController_RCP_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramOpenLoopVelocityToVoltsBias ""  
+    VALUE 0x0021EABC Scalar_FLOAT32_IEEE 0 FieldOrientedController_RCP_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramOpenLoopVelocityToVoltsScalar ""  
+    VALUE 0x0021EAB8 Scalar_FLOAT32_IEEE 0 FieldOrientedController_RCP_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramOverCurrentDuration ""  
+    VALUE 0x0021EB08 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramOverCurrentEnable ""  
+    VALUE 0x00221820 Scalar_BOOLEAN 0 FieldOrientedController_RCP_CM_logical 0 1  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramOverCurrentLimit ""  
+    VALUE 0x0021EB00 Scalar_FLOAT64_IEEE 0 FieldOrientedController_RCP_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramPwmCompareAtZeroVolt ""  
+    VALUE 0x0021EAB4 Scalar_FLOAT32_IEEE 0 FieldOrientedController_RCP_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramPwmCompareMax ""  
+    VALUE 0x0021EAB0 Scalar_FLOAT32_IEEE 0 FieldOrientedController_RCP_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramPwmComparePerVolt ""  
+    VALUE 0x0021EAAC Scalar_FLOAT32_IEEE 0 FieldOrientedController_RCP_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramVelocityControlI ""  
+    VALUE 0x0021EAA8 Scalar_FLOAT32_IEEE 0 FieldOrientedController_RCP_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramVelocityControlP ""  
+    VALUE 0x0021EAA4 Scalar_FLOAT32_IEEE 0 FieldOrientedController_RCP_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_paramVelocityControlSatCurrent ""  
+    VALUE 0x0021EAA0 Scalar_FLOAT32_IEEE 0 FieldOrientedController_RCP_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin MEASUREMENT  FieldOrientedController_B.AND ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222616
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.AND3 ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222629
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Abs ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x002223F0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Abs_a ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224BC
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Abs_o ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225DC
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x002223C0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add1 ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222468
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add1_d ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225AC
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add1_e ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222530
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add1_e5 ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222590
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add1_k ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222510
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add1_l ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224CC
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add1_m ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224E8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add2 ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222464
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add2_d ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222560
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add2_j ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224DC
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add2_jl ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225A0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add2_o ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x0022250C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add_a ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x0022251C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add_d ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225A8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add_do ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225B8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add_e ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222554
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add_f ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224F0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add_h ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x0022260C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add_i ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002223DC
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add_j ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224C4
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add_k ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        3 
+    ECU_ADDRESS                       0x00222428
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add_kw ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224E4
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add_n ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224A8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Add_p ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222584
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Alpha_Gain ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222514
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Beta_Gain ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222518
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Compare ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x0022262E
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.DataTypeConv1 ""  
+    SBYTE FieldOrientedController_CM_int8       0             0       -128 127  
+    ECU_ADDRESS                       0x00222610
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.DataTypeConv2 ""  
+    SBYTE FieldOrientedController_CM_int8       0             0       -128 127  
+    ECU_ADDRESS                       0x00222611
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Data_Type_Convert ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002223D0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.DeadZone ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222480
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Delay ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222498
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Delay1 ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225EC
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Delay1_g ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x0022262F
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Delay1_gb ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222642
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Delay1_k ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222620
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Delay2 ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222619
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Delay2_e ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222645
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Delay3 ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x0022261C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Delay4 ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222408
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Delay_c ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224EC
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Delay_l ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225E0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Delay_o ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224A4
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Delay_on ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225D0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Detect_Rise ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x0022261D
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Difference ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225D4
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Equal1 ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222628
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.FilterTs15mS ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222418
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Find_Encoder_Index_e ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222638
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.FixPtRelationalOperator ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x0022261A
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Frequency_To_Voltage ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224C0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Gain ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002223E8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Gain1 ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224E0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Gain1_b ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225A4
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Gain_i ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222594
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Gain_j ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224A0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Gain_jw ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225BC
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Gain_k ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224D0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Gain_k3 ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224F8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Greater_Or_Equal ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222644
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Greater_Than ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222612
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Greater_Than_j ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222643
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Greater_Than_p ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x0022262B
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.IntegralGain ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222488
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Integral_Gain ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225C4
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Integral_Gain_e ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225CC
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Integrator ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222474
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Last_Valid_Position_Delta ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222410
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Less_Than ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222626
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Less_Than_k ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222635
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.LowerRelop1 ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x0022263B
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.LowerRelop1_h ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x0022263E
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Max ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225B0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Merge ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        3 
+    ECU_ADDRESS                       0x002223FC
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Min ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225B4
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Mod ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002223EC
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.NOT ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222618
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Negate ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222544
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Negate_f ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222574
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.No_Change_Detected ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x0022261B
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.No_Rise_Detected ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x0022261E
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.NotEqual ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222627
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Not_Equal ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x0022263D
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Not_Equal_n ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222640
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Number_Of_Pole_Pairs ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x0022249C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.PhaseCurrent ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x002223C8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Product1 ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224B8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Product1_k ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222588
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Product1_l ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222528
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Product2 ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224C8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Product2_c ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x0022252C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Product2_g ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x0022258C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Product3 ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224D4
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Product3_m ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222598
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Product3_n ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222558
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Product4 ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224D8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Product4_b ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x0022259C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Product4_n ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x0022255C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.ProportionalGain ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222470
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.RateTransition1 ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222622
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.RateTransition10 ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222623
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.RateTransition2 ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222615
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.RateTransition3 ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222613
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.RateTransition4 ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222614
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.RateTransition5 ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222617
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.RateTransition6 ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222621
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.RateTransition7 ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002223F8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.RateTransition8 ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222444
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.RateTransition9 ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002223E4
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Rotor_Position_Per_Count ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002223D4
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Sample_Frequency ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225E8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Sample_Time ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225C0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Sample_Time_m ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225C8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Saturation ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        3 
+    ECU_ADDRESS                       0x00222434
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Saturation_n ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222494
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.SignPreIntegrator ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x0022248C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.SignPreSat ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222484
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Sine_Cosine_o1 ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224B0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Sine_Cosine_o2 ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224B4
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Slope ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        3 
+    ECU_ADDRESS                       0x0022241C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Subtract ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x0022246C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Sum ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222478
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Sum_k ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224FC
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002223E0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch1 ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x0022244C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch1_b ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222460
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch1_j ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225F4
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch1_jw ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222608
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch1_n ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222508
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch1_nj ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225D8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch2 ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222450
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch2_d ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225F8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch2_e ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x0022254C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch2_l ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x0022257C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch_Stop ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224F4
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch_c ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222440
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch_c1 ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222548
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch_cn ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222580
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch_d ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222414
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch_i ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222490
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch_ig ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222550
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch_iz ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225F0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch_k ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225E4
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch_l ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002224AC
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Switch_m ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222578
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Uk1 ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x0022240C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.Unary_Minus ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222504
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.UnitDelay ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002223D8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.UpperRelop ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x0022263C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.UpperRelop_f ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x0022263F
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.ZeroGain ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x0022247C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.accleration ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222500
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.calibrateEncoder ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222639
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.closedLoop ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x0022263A
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.cosCoefficient ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222524
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.currentControlError ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222534
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.currentControlError_l ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222564
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.currentControlITerm ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x0022253C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.currentControlITerm_k ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x0022256C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.currentControlPTerm ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222538
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.currentControlPTerm_g ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222568
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.currentGreaterThanTarget ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x0022262D
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.currentLessThanTarget ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x0022262C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.enableInverter ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222636
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.error ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x0022262A
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.latchPosition ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222646
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.negativeDirection ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222632
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.negativeIn ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222604
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.openLoop ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222637
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.positionDelta ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222448
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.positionDeltaValid ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x0022261F
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.positionGreaterThanPii ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222624
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.positionGreaterThanPii_b ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222641
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.positionLessThanPi ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222625
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.positionLessThanPi_c ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222647
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.positiveDirection ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222630
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.preSatVoltage ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222540
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.preSatVoltage_n ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222570
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.rotorVelocity ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x0022245C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.sinCoefficient ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222520
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.stopAccelerating ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222634
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.stopNegativeAcceleration ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222633
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.stopPositiveAcceleration ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x00222631
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.wrapPositionNegPii ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222454
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.wrapPositionNegPii_i ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002225FC
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.wrapPositionPi ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222458
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_B.wrapPositionPi_f ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222600
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.Calibrate_Encoder_Offset_MODE ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x002223BE
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.Current_Control_MODE ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x002223BD
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.Delay1_DSTATE ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222364
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.Delay1_DSTATE_j ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x002223B4
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.Delay1_DSTATE_n ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x002223B3
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.Delay1_DSTATE_p ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x002223B2
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.Delay2_DSTATE ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x002223B0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.Delay2_DSTATE_n ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x002223B5
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.Delay3_DSTATE ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x002223B1
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.Delay4_DSTATE ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222334
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.DelayInput1_DSTATE ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222338
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.Delay_DSTATE ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222348
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.Delay_DSTATE_a ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222360
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.Delay_DSTATE_e ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x0022235C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.Delay_DSTATE_h ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222350
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.Delay_DSTATE_o ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x0022234C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.FilterTs15mS_states ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222340
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.FilterTs15mS_tmp ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222368
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.Integrator_DSTATE ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222344
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.Last_Valid_Position_Delta_DSTATE ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x0022233C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.Open_Loop_Velocity_Control_MODE ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x002223BC
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.RateTransition_Buf ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x0022236C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.RateTransition_RdBufIdx ""  
+    SBYTE FieldOrientedController_CM_int8       0             0       -128 127  
+    ECU_ADDRESS                       0x002223B6
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.RateTransition_WrBufIdx ""  
+    SBYTE FieldOrientedController_CM_int8       0             0       -128 127  
+    ECU_ADDRESS                       0x002223B7
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.Unit_Delay_DSTATE ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222354
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.Unit_Delay_DSTATE_h ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222358
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.Velocity_Control_MODE ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x002223BB
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.bufferIndex ""  
+    SLONG FieldOrientedController_CM_int32       0             0       -2147483648 2147483647  
+    ECU_ADDRESS                       0x00222394
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.calibrateAtStartup ""  
+    FLOAT64_IEEE FieldOrientedController_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x00222320
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.chartAbsoluteTimeCounter ""  
+    SLONG FieldOrientedController_CM_int32       0             0       -2147483648 2147483647  
+    ECU_ADDRESS                       0x00222398
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.condWasTrueAtLastTimeStep_1 ""  
+    UBYTE FieldOrientedController_CM_boolean       0             0       0 1  
+    ECU_ADDRESS                       0x002223BA
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.durationLastReferenceTick_1 ""  
+    SLONG FieldOrientedController_CM_int32       0             0       -2147483648 2147483647  
+    ECU_ADDRESS                       0x0022239C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.encoderOffset ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00222330
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.is_Enable_Inverter ""  
+    ULONG FieldOrientedController_CM_uint32       0             0       0 2147483646  
+    ECU_ADDRESS                       0x002223A8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.is_Open_Loop ""  
+    ULONG FieldOrientedController_CM_uint32       0             0       0 2147483646  
+    ECU_ADDRESS                       0x002223AC
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.is_active_c1_FieldOrientedController ""  
+    UBYTE FieldOrientedController_CM_uint8       0             0       0 255  
+    ECU_ADDRESS                       0x002223B9
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.is_active_c2_FieldOrientedController ""  
+    UBYTE FieldOrientedController_CM_uint8       0             0       0 255  
+    ECU_ADDRESS                       0x002223B8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.is_c1_FieldOrientedController ""  
+    ULONG FieldOrientedController_CM_uint32       0             0       0 2147483646  
+    ECU_ADDRESS                       0x002223A4
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.is_c2_FieldOrientedController ""  
+    ULONG FieldOrientedController_CM_uint32       0             0       0 2147483646  
+    ECU_ADDRESS                       0x002223A0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_DW.positionDeltaBuffer ""  
+    FLOAT32_IEEE FieldOrientedController_CM_single       0             0       -3.4E+38 3.4E+38  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        8 
+    ECU_ADDRESS                       0x00222374
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.BusCreator2.commandType ""  
+    SLONG FieldOrientedController_RCP_CM_commandTypeEnum       0             0       0 3  
+    ECU_ADDRESS                       0x002214CC
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.BusCreator2.enCurrentSensor ""  
+    UBYTE FieldOrientedController_RCP_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002214C8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.BusCreator2.motorOn ""  
+    UBYTE FieldOrientedController_RCP_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002214C9
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.BusCreator2.torqueLoad ""  
+    FLOAT64_IEEE FieldOrientedController_RCP_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002214C0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.BusCreator2.velocityCommand ""  
+    FLOAT32_IEEE FieldOrientedController_RCP_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002214D0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.Constant ""  
+    UBYTE FieldOrientedController_RCP_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x0022159C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.DataTypeConversion1 ""  
+    FLOAT64_IEEE FieldOrientedController_RCP_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x00221528
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.DataTypeConversion1_e ""  
+    UWORD FieldOrientedController_RCP_CM_uint16       0             0       0 65535  
+    ECU_ADDRESS                       0x00221594
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.Enableinv ""  
+    FLOAT64_IEEE FieldOrientedController_RCP_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x00221530
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.IO397AnalogInput_o1 ""  
+    FLOAT64_IEEE FieldOrientedController_RCP_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x00221508
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.IO397AnalogInput_o2 ""  
+    FLOAT64_IEEE FieldOrientedController_RCP_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x00221510
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.MathFunction ""  
+    ULONG FieldOrientedController_RCP_CM_uint32       0             0       0 2147483646  
+    ECU_ADDRESS                       0x0022156C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.NOT ""  
+    UBYTE FieldOrientedController_RCP_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x0022159F
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.PWMDutyCycle ""  
+    FLOAT64_IEEE FieldOrientedController_RCP_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        3 
+    ECU_ADDRESS                       0x00221550
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.SignalCopy ""  
+    FLOAT32_IEEE FieldOrientedController_RCP_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00221574
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.UnitDelay ""  
+    FLOAT64_IEEE FieldOrientedController_RCP_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x00221520
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.enInverter ""  
+    UBYTE FieldOrientedController_RCP_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x0022159D
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.encoderCountRaw ""  
+    ULONG FieldOrientedController_RCP_CM_uint32       0             0       0 2147483646  
+    ECU_ADDRESS                       0x00221568
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.mode ""  
+    SLONG FieldOrientedController_RCP_CM_modeSchedulerEnum       0             0       0 7  
+    ECU_ADDRESS                       0x0022158C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.mode_j ""  
+    SLONG FieldOrientedController_RCP_CM_modeSchedulerEnum       0             0       0 7  
+    ECU_ADDRESS                       0x00221590
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.pwmCompare ""  
+    UWORD FieldOrientedController_RCP_CM_uint16       0             0       0 65535  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        3 
+    ECU_ADDRESS                       0x00221596
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.pwmDutyCycle ""  
+    FLOAT64_IEEE FieldOrientedController_RCP_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        3 
+    ECU_ADDRESS                       0x00221538
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.rotorVelocity ""  
+    FLOAT32_IEEE FieldOrientedController_RCP_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00221584
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.rotorVelocityCopy ""  
+    FLOAT32_IEEE FieldOrientedController_RCP_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00221588
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.transducerVoltages ""  
+    FLOAT32_IEEE FieldOrientedController_RCP_CM_single       0             0       -3.4E+38 3.4E+38  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x00221578
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.userInputs1 ""  
+    UBYTE FieldOrientedController_RCP_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x0022159E
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.userInputs_a.commandType ""  
+    SLONG FieldOrientedController_RCP_CM_commandTypeEnum       0             0       0 3  
+    ECU_ADDRESS                       0x002214E4
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.userInputs_a.enCurrentSensor ""  
+    UBYTE FieldOrientedController_RCP_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002214E0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.userInputs_a.motorOn ""  
+    UBYTE FieldOrientedController_RCP_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002214E1
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.userInputs_a.torqueLoad ""  
+    FLOAT64_IEEE FieldOrientedController_RCP_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002214D8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.userInputs_a.velocityCommand ""  
+    FLOAT32_IEEE FieldOrientedController_RCP_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002214E8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.userInputs_e.commandType ""  
+    SLONG FieldOrientedController_RCP_CM_commandTypeEnum       0             0       0 3  
+    ECU_ADDRESS                       0x002214FC
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.userInputs_e.enCurrentSensor ""  
+    UBYTE FieldOrientedController_RCP_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002214F8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.userInputs_e.motorOn ""  
+    UBYTE FieldOrientedController_RCP_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002214F9
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.userInputs_e.torqueLoad ""  
+    FLOAT64_IEEE FieldOrientedController_RCP_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002214F0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.userInputs_e.velocityCommand ""  
+    FLOAT32_IEEE FieldOrientedController_RCP_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00221500
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.userInputs_j ""  
+    FLOAT64_IEEE FieldOrientedController_RCP_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x00221518
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.velocityCommand ""  
+    FLOAT32_IEEE FieldOrientedController_RCP_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x00221580
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_B.y ""  
+    ULONG FieldOrientedController_RCP_CM_uint32       0             0       0 2147483646  
+    ECU_ADDRESS                       0x00221570
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_DW.UnitDelay_DSTATE ""  
+    FLOAT64_IEEE FieldOrientedController_RCP_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x00221380
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_DW.userInputs1_Buf ""  
+    UBYTE FieldOrientedController_RCP_CM_logical       0             0       0 1  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x002214BC
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_DW.userInputs1_RdBufIdx ""  
+    SBYTE FieldOrientedController_RCP_CM_int8       0             0       -128 127  
+    ECU_ADDRESS                       0x002214BA
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_DW.userInputs1_WrBufIdx ""  
+    SBYTE FieldOrientedController_RCP_CM_int8       0             0       -128 127  
+    ECU_ADDRESS                       0x002214BB
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_DW.userInputs_Buf ""  
+    FLOAT64_IEEE FieldOrientedController_RCP_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x00221388
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_DW.userInputs_RdBufIdx ""  
+    SBYTE FieldOrientedController_RCP_CM_int8       0             0       -128 127  
+    ECU_ADDRESS                       0x002214B8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_RCP_DW.userInputs_WrBufIdx ""  
+    SBYTE FieldOrientedController_RCP_CM_int8       0             0       -128 127  
+    ECU_ADDRESS                       0x002214B9
+  /end MEASUREMENT 
+
+  /begin COMPU_METHOD FieldOrientedController_CM_boolean ""  
+    IDENTICAL "%1.0" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_CM_double ""  
+    IDENTICAL "%15.10" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_CM_int32 ""  
+    IDENTICAL "%10.0" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_CM_int8 ""  
+    IDENTICAL "%3.0" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_CM_single ""  
+    IDENTICAL "%8.6" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_CM_uint32 ""  
+    IDENTICAL "%10.0" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_CM_uint8 ""  
+    IDENTICAL "%3.0" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_RCP_CM_commandTypeEnum ""  
+    TAB_VERB "%0.6" ""  
+    COMPU_TAB_REF VTAB_FOR_FieldOrientedController_RCP_CM_commandTypeEnum  
+  /end COMPU_METHOD
+
+  /begin COMPU_VTAB VTAB_FOR_FieldOrientedController_RCP_CM_commandTypeEnum "Enumerated data type: commandTypeEnum"  
+    TAB_VERB 4  
+    0 "commandTypeEnum_Error"  
+    1 "commandTypeEnum_OpenLoop"  
+    2 "commandTypeEnum_CalibrateEncoder"  
+    3 "commandTypeEnum_ClosedLoop"  
+  /end COMPU_VTAB
+
+  /begin COMPU_METHOD FieldOrientedController_RCP_CM_double ""  
+    IDENTICAL "%15.10" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_RCP_CM_int8 ""  
+    IDENTICAL "%3.0" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_RCP_CM_logical ""  
+    IDENTICAL "%1.0" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_RCP_CM_modeSchedulerEnum ""  
+    TAB_VERB "%0.6" ""  
+    COMPU_TAB_REF VTAB_FOR_FieldOrientedController_RCP_CM_modeSchedulerEnum  
+  /end COMPU_METHOD
+
+  /begin COMPU_VTAB VTAB_FOR_FieldOrientedController_RCP_CM_modeSchedulerEnum "Enumerated data type: modeSchedulerEnum"  
+    TAB_VERB 8  
+    0 "None"  
+    1 "Stand_By"  
+    2 "Open_Loop_Command"  
+    3 "Find_Encoder_Index"  
+    4 "Calibrate_Encoder_Offset"  
+    5 "Closed_Loop"  
+    6 "Error"  
+    7 "Disabled"  
+  /end COMPU_VTAB
+
+  /begin COMPU_METHOD FieldOrientedController_RCP_CM_single ""  
+    IDENTICAL "%8.6" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_RCP_CM_ufix16_En26 ""  
+    LINEAR "%13.16" ""  
+    COEFFS_LINEAR 0.000000 0.000000  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_RCP_CM_uint16 ""  
+    IDENTICAL "%5.0" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_RCP_CM_uint32 ""  
+    IDENTICAL "%10.0" ""  
+  /end COMPU_METHOD
+
+  /begin  RECORD_LAYOUT Scalar_BOOLEAN
+    FNC_VALUES 1 UBYTE COLUMN_DIR DIRECT
+  /end  RECORD_LAYOUT 
+
+  /begin  RECORD_LAYOUT Scalar_FLOAT32_IEEE
+    FNC_VALUES 1 FLOAT32_IEEE COLUMN_DIR DIRECT
+  /end  RECORD_LAYOUT 
+
+  /begin  RECORD_LAYOUT Scalar_FLOAT64_IEEE
+    FNC_VALUES 1 FLOAT64_IEEE COLUMN_DIR DIRECT
+  /end  RECORD_LAYOUT 
+
+  /begin  RECORD_LAYOUT Scalar_SBYTE
+    FNC_VALUES 1 SBYTE COLUMN_DIR DIRECT
+  /end  RECORD_LAYOUT 
+
+  /begin  RECORD_LAYOUT Scalar_SLONG
+    FNC_VALUES 1 SLONG COLUMN_DIR DIRECT
+  /end  RECORD_LAYOUT 
+
+  /begin  RECORD_LAYOUT Scalar_UBYTE
+    FNC_VALUES 1 UBYTE COLUMN_DIR DIRECT
+  /end  RECORD_LAYOUT 
+
+  /begin  RECORD_LAYOUT Scalar_ULONG
+    FNC_VALUES 1 ULONG COLUMN_DIR DIRECT
+  /end  RECORD_LAYOUT 
+
+  /begin  RECORD_LAYOUT Scalar_UWORD
+    FNC_VALUES 1 UWORD COLUMN_DIR DIRECT
+  /end  RECORD_LAYOUT 
+
+  /begin GROUP FieldOrientedController "FieldOrientedController"  
+    /begin REF_CHARACTERISTIC
+      FieldOrientedController.rtP_paramOverCurrentDuration
+      FieldOrientedController.rtP_paramOverCurrentLimit
+      FieldOrientedController.rtP_PolePairs
+      FieldOrientedController.rtP_paramAdcAmperePerTransducerVolt
+      FieldOrientedController.rtP_paramAdcTransducerVoltAtZeroAmpere
+      FieldOrientedController.rtP_paramCurrentControlI
+      FieldOrientedController.rtP_paramCurrentControlP
+      FieldOrientedController.rtP_paramCurrentControlSatVoltage
+      FieldOrientedController.rtP_paramEncoderCalibrationDuration
+      FieldOrientedController.rtP_paramEncoderCalibrationMaxError
+      FieldOrientedController.rtP_paramEncoderCalibrationVoltage
+      FieldOrientedController.rtP_paramEncoderRotorPositionAtZeroCount
+      FieldOrientedController.rtP_paramEncoderRotorPositionPerCount
+      FieldOrientedController.rtP_paramOpenLoopVelocityAcceleration
+      FieldOrientedController.rtP_paramOpenLoopVelocityToVoltsBias
+      FieldOrientedController.rtP_paramOpenLoopVelocityToVoltsScalar
+      FieldOrientedController.rtP_paramPwmCompareAtZeroVolt
+      FieldOrientedController.rtP_paramPwmCompareMax
+      FieldOrientedController.rtP_paramPwmComparePerVolt
+      FieldOrientedController.rtP_paramVelocityControlI
+      FieldOrientedController.rtP_paramVelocityControlP
+      FieldOrientedController.rtP_paramVelocityControlSatCurrent
+      FieldOrientedController.rtP_paramOverCurrentEnable
+    /end REF_CHARACTERISTIC
+    /begin REF_MEASUREMENT
+      FieldOrientedController.userInputs_torqueLoad
+      FieldOrientedController.userInputs_enCurrentSensor
+      FieldOrientedController.i_userInputs_motorOn
+      FieldOrientedController.i_userInputs_commandType
+      FieldOrientedController.i_userInputs_velocityCommand
+      FieldOrientedController.controllerFeedback_rotorVelocity
+      FieldOrientedController.i_controllerFeedback_transducerVoltage
+      FieldOrientedController.i_i_controllerFeedback_encoderIndexFound
+      FieldOrientedController.i_controllerFeedback_encoderCount
+      FieldOrientedController.o_o_o_controllerInfo_mode
+      FieldOrientedController.o_controllerInfo_rotorVelocity
+      FieldOrientedController.o_motorCommands_enInverter
+      FieldOrientedController.o_motorCommands_pwmCompare
+    /end REF_MEASUREMENT
+  /end GROUP
+
+  /begin GROUP FieldOrientedController_RCP "FieldOrientedController_RCP" ROOT  
+    /begin REF_CHARACTERISTIC
+      rtP_paramOverCurrentDuration
+      rtP_paramOverCurrentLimit
+      rtP_PolePairs
+      rtP_paramAdcAmperePerTransducerVolt
+      rtP_paramAdcTransducerVoltAtZeroAmpere
+      rtP_paramCurrentControlI
+      rtP_paramCurrentControlP
+      rtP_paramCurrentControlSatVoltage
+      rtP_paramEncoderCalibrationDuration
+      rtP_paramEncoderCalibrationMaxError
+      rtP_paramEncoderCalibrationVoltage
+      rtP_paramEncoderRotorPositionAtZeroCount
+      rtP_paramEncoderRotorPositionPerCount
+      rtP_paramOpenLoopVelocityAcceleration
+      rtP_paramOpenLoopVelocityToVoltsBias
+      rtP_paramOpenLoopVelocityToVoltsScalar
+      rtP_paramPwmCompareAtZeroVolt
+      rtP_paramPwmCompareMax
+      rtP_paramPwmComparePerVolt
+      rtP_paramVelocityControlI
+      rtP_paramVelocityControlP
+      rtP_paramVelocityControlSatCurrent
+      rtP_paramOverCurrentEnable
+    /end REF_CHARACTERISTIC
+  /end GROUP
+
+  /begin GROUP FieldOrientedController_RCP_B.BusCreator2 ""  
+    /begin REF_MEASUREMENT
+      FieldOrientedController_RCP_B.BusCreator2.torqueLoad
+      FieldOrientedController_RCP_B.BusCreator2.enCurrentSensor
+      FieldOrientedController_RCP_B.BusCreator2.motorOn
+      FieldOrientedController_RCP_B.BusCreator2.commandType
+      FieldOrientedController_RCP_B.BusCreator2.velocityCommand
+    /end REF_MEASUREMENT
+  /end GROUP
+
+  /begin GROUP FieldOrientedController_RCP_B.userInputs_a ""  
+    /begin REF_MEASUREMENT
+      FieldOrientedController_RCP_B.userInputs_a.torqueLoad
+      FieldOrientedController_RCP_B.userInputs_a.enCurrentSensor
+      FieldOrientedController_RCP_B.userInputs_a.motorOn
+      FieldOrientedController_RCP_B.userInputs_a.commandType
+      FieldOrientedController_RCP_B.userInputs_a.velocityCommand
+    /end REF_MEASUREMENT
+  /end GROUP
+
+  /begin GROUP FieldOrientedController_RCP_B.userInputs_e ""  
+    /begin REF_MEASUREMENT
+      FieldOrientedController_RCP_B.userInputs_e.torqueLoad
+      FieldOrientedController_RCP_B.userInputs_e.enCurrentSensor
+      FieldOrientedController_RCP_B.userInputs_e.motorOn
+      FieldOrientedController_RCP_B.userInputs_e.commandType
+      FieldOrientedController_RCP_B.userInputs_e.velocityCommand
+    /end REF_MEASUREMENT
+  /end GROUP
+
+  /end MODULE
+
+/end PROJECT
+

@@ -1,0 +1,53 @@
+%implements "chartSource" "C"
+%function ChartConfig(block, system) void
+  %createrecord chartConfiguration { ...
+          executeAtInitialization  0 ...
+  }
+  %return chartConfiguration
+%endfunction
+%function ChartDataMap(block, system) void
+  %createrecord ChartDataElements {\
+    NumChartData   5 \
+    ChartDataDefaults {\
+      RecordType   "ChartData"\
+      Dimensions   []\
+      IsTestPoint  0\
+    }\
+    ChartData {\
+      Name         "is_active_c1_FieldOrientedController"\
+      Description  "StateIsActive"\
+      SFName       ""\
+      Path         ""\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_c1_FieldOrientedController"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         ""\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_Enable_Inverter"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         "Enable_Inverter"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_Open_Loop"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         "Enable_Inverter.Open_Loop"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "calibrateAtStartup"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "calibrateAtStartup"\
+      SrcLocation  ""\
+    }\
+  }
+  %return ChartDataElements
+%endfunction

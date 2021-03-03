@@ -1,0 +1,2190 @@
+/******************************************************************************
+ *
+ *  ASAP2 file:     FieldOrientedController_HIL.a2l
+ *
+ * Prerelease License - for engineering feedback and testing purposes
+ * only. Not for sale.
+ *
+ * Code generation for model "FieldOrientedController_HIL".
+ *
+ * Model version              : 2.16
+ * Simulink Coder version : 10.2 R2020b
+ * C source code generated on : Wed Mar 03 11:08:21 2021
+ *
+ * Target selection: slrealtime.tlc
+ * Embedded hardware selection: Intel->x86-64 (Linux 64)
+ * Code generation objectives: Unspecified
+ * Validation result: Not run
+ *
+ * (add additional file header information here)
+ *
+ ******************************************************************************/
+ASAP2_VERSION  1 71  
+/begin PROJECT ProjectName "Project Comment Goes Here"
+
+  /begin HEADER "Header Comments go here"
+
+  /end HEADER
+
+  /begin MODULE ModuleName  "Module Comment Goes Here"
+
+    /begin A2ML
+
+      struct Protocol_Layer {
+        uint;  /* XCP protocol layer version, current 0x100 */
+        uint;  /* T1 [ms] */
+        uint;  /* T2 [ms] */
+        uint;  /* T3 [ms] */
+        uint;  /* T4 [ms] */
+        uint;  /* T5 [ms] */
+        uint;  /* T6 [ms] */
+        uint;  /* T7 [ms] */
+        uchar;  /* MAX_CTO */
+        uint;  /* MAX_DTO */
+        enum {
+          "BYTE_ORDER_MSB_LAST" = 0,
+          "BYTE_ORDER_MSB_FIRST" = 1
+        };
+        enum {
+          "ADDRESS_GRANULARITY_BYTE" = 1,
+          "ADDRESS_GRANULARITY_WORD" = 2,
+          "ADDRESS_GRANULARITY_DWORD" = 4
+        };
+        taggedstruct {
+          ("OPTIONAL_CMD" enum {
+            "GET_COMM_MODE_INFO" = 251,
+            "GET_ID" = 250,
+            "SET_REQUEST" = 249,
+            "GET_SEED" = 248,
+            "UNLOCK" = 247,
+            "SET_MTA" = 246,
+            "UPLOAD" = 245,
+            "SHORT_UPLOAD" = 244,
+            "BUILD_CHECKSUM" = 243,
+            "TRANSPORT_LAYER_CMD" = 242,
+            "USER_CMD" = 241,
+            "DOWNLOAD" = 240,
+            "DOWNLOAD_NEXT" = 239,
+            "DOWNLOAD_MAX" = 238,
+            "SHORT_DOWNLOAD" = 237,
+            "MODIFY_BITS" = 236,
+            "SET_CAL_PAGE" = 235,
+            "GET_CAL_PAGE" = 234,
+            "GET_PAG_PROCESSOR_INFO" = 233,
+            "GET_SEGMENT_INFO" = 232,
+            "GET_PAGE_INFO" = 231,
+            "SET_SEGMENT_MODE" = 230,
+            "GET_SEGMENT_MODE" = 229,
+            "COPY_CAL_PAGE" = 228,
+            "CLEAR_DAQ_LIST" = 227,
+            "SET_DAQ_PTR" = 226,
+            "WRITE_DAQ" = 225,
+            "SET_DAQ_LIST_MODE" = 224,
+            "GET_DAQ_LIST_MODE" = 223,
+            "START_STOP_DAQ_LIST" = 222,
+            "START_STOP_SYNCH" = 221,
+            "GET_DAQ_CLOCK" = 220,
+            "READ_DAQ" = 219,
+            "GET_DAQ_PROCESSOR_INFO" = 218,
+            "GET_DAQ_RESOLUTION_INFO" = 217,
+            "GET_DAQ_LIST_INFO" = 216,
+            "GET_DAQ_EVENT_INFO" = 215,
+            "FREE_DAQ" = 214,
+            "ALLOC_DAQ" = 213,
+            "ALLOC_ODT" = 212,
+            "ALLOC_ODT_ENTRY" = 211,
+            "PROGRAM_START" = 210,
+            "PROGRAM_CLEAR" = 209,
+            "PROGRAM" = 208,
+            "PROGRAM_RESET" = 207,
+            "GET_PGM_PROCESSOR_INFO" = 206,
+            "GET_SECTOR_INFO" = 205,
+            "PROGRAM_PREPARE" = 204,
+            "PROGRAM_FORMAT" = 203,
+            "PROGRAM_NEXT" = 202,
+            "PROGRAM_MAX" = 201,
+            "PROGRAM_VERIFY" = 200
+          })*;
+          "COMMUNICATION_MODE_SUPPORTED" taggedunion {
+            "BLOCK" taggedstruct {
+              "SLAVE" ;
+              "MASTER" struct {
+                uchar;  /* MAX_BS */
+                uchar;  /* MIN_ST */
+              };
+            };
+            "INTERLEAVED" uchar;  /* QUEUE_SIZE */
+          };
+          "SEED_AND_KEY_EXTERNAL_FUNCTION" char[256];  /* Name of the Seed&Key function */
+        };
+      };
+
+      struct Daq {
+        enum {
+          "STATIC" = 0,
+          "DYNAMIC" = 1
+        };
+        uint;  /* MAX_DAQ */
+        uint;  /* MAX_EVENT_CHANNEL */
+        uchar;  /* MIN_DAQ */
+        enum {
+          "OPTIMISATION_TYPE_DEFAULT" = 0,
+          "OPTIMISATION_TYPE_ODT_TYPE_16" = 1,
+          "OPTIMISATION_TYPE_ODT_TYPE_32" = 2,
+          "OPTIMISATION_TYPE_ODT_TYPE_64" = 3,
+          "OPTIMISATION_TYPE_ODT_TYPE_ALIGNMENT" = 4,
+          "OPTIMISATION_TYPE_MAX_ENTRY_SIZE" = 5
+        };
+        enum {
+          "ADDRESS_EXTENSION_FREE" = 0,
+          "ADDRESS_EXTENSION_ODT" = 1,
+          "ADDRESS_EXTENSION_DAQ" = 3
+        };
+        enum {
+          "IDENTIFICATION_FIELD_TYPE_ABSOLUTE" = 0,
+          "IDENTIFICATION_FIELD_TYPE_RELATIVE_BYTE" = 1,
+          "IDENTIFICATION_FIELD_TYPE_RELATIVE_WORD" = 2,
+          "IDENTIFICATION_FIELD_TYPE_RELATIVE_WORD_ALIGNED" = 3
+        };
+        enum {
+          "GRANULARITY_ODT_ENTRY_SIZE_DAQ_BYTE" = 1,
+          "GRANULARITY_ODT_ENTRY_SIZE_DAQ_WORD" = 2,
+          "GRANULARITY_ODT_ENTRY_SIZE_DAQ_DWORD" = 4,
+          "GRANULARITY_ODT_ENTRY_SIZE_DAQ_DLONG" = 8
+        };
+        uchar;  /* MAX_ODT_ENTRY_SIZE_DAQ */
+        enum {
+          "NO_OVERLOAD_INDICATION" = 0,
+          "OVERLOAD_INDICATION_PID" = 1,
+          "OVERLOAD_INDICATION_EVENT" = 2
+        };
+        taggedstruct {
+          "PRESCALER_SUPPORTED" ;
+          "RESUME_SUPPORTED" ;
+          block "STIM" struct {
+            enum {
+              "GRANULARITY_ODT_ENTRY_SIZE_STIM_BYTE" = 1,
+              "GRANULARITY_ODT_ENTRY_SIZE_STIM_WORD" = 2,
+              "GRANULARITY_ODT_ENTRY_SIZE_STIM_DWORD" = 4,
+              "GRANULARITY_ODT_ENTRY_SIZE_STIM_DLONG" = 8
+            };
+            uchar;  /* MAX_ODT_ENTRY_SIZE_STIM */
+            taggedstruct {
+              "BIT_STIM_SUPPORTED" ;
+            };
+          };
+          block "TIMESTAMP_SUPPORTED" struct {
+            uint;  /* TIMESTAMP_TICKS */
+            enum {
+              "NO_TIME_STAMP" = 0,
+              "SIZE_BYTE" = 1,
+              "SIZE_WORD" = 2,
+              "SIZE_DWORD" = 4
+            };
+            enum {
+              "UNIT_1NS" = 0,
+              "UNIT_10NS" = 1,
+              "UNIT_100NS" = 2,
+              "UNIT_1US" = 3,
+              "UNIT_10US" = 4,
+              "UNIT_100US" = 5,
+              "UNIT_1MS" = 6,
+              "UNIT_10MS" = 7,
+              "UNIT_100MS" = 8,
+              "UNIT_1S" = 9
+            };
+            taggedstruct {
+              "TIMESTAMP_FIXED" ;
+            };
+          };
+          "PID_OFF_SUPPORTED" ;
+          (block "DAQ_LIST" struct {
+            uint;  /* DAQ_LIST_NUMBER */
+            taggedstruct {
+              "DAQ_LIST_TYPE" enum {
+                "DAQ" = 1,
+                "STIM" = 2,
+                "DAQ_STIM" = 3
+              };
+              "MAX_ODT" uchar;
+              "MAX_ODT_ENTRIES" uchar;
+              "FIRST_PID" uchar;
+              "EVENT_FIXED" uint;
+              block "PREDEFINED" taggedstruct {
+                (block "ODT" struct {
+                  uchar;  /* ODT number */
+                  taggedstruct {
+                    ("ODT_ENTRY" struct {
+                      uchar;  /* ODT_ENTRY number */
+                      ulong;  /* address of element */
+                      uchar;  /* address extension of element */
+                      uchar;  /* size of element [AG] */
+                      uchar;  /* BIT_OFFSET */
+                    })*;
+                  };
+                })*;
+              };
+            };
+          })*;
+          (block "EVENT" struct {
+            char[101];  /* EVENT_CHANNEL_NAME       */
+            char[9];  /* EVENT_CHANNEL_SHORT_NAME */
+            uint;  /* EVENT_CHANNEL_NUMBER     */
+            enum {
+              "DAQ" = 1,
+              "STIM" = 2,
+              "DAQ_STIM" = 3
+            };
+            uchar;  /* MAX_DAQ_LIST */
+            uchar;  /* TIME_CYCLE   */
+            uchar;  /* TIME_UNIT    */
+            uchar;  /* PRIORITY     */
+          })*;
+        };
+      };
+
+      taggedunion Daq_Event {
+        "FIXED_EVENT_LIST" taggedstruct {
+          ("EVENT" uint)*;
+        };
+        "VARIABLE" taggedstruct {
+          block "AVAILABLE_EVENT_LIST" taggedstruct {
+            ("EVENT" uint)*;
+          };
+          block "DEFAULT_EVENT_LIST" taggedstruct {
+            ("EVENT" uint)*;
+          };
+        };
+      };
+
+      struct Pag {
+        uchar;  /* MAX_SEGMENTS */
+        taggedstruct {
+          "FREEZE_SUPPORTED" ;
+        };
+      };
+
+      struct Pgm {
+        enum {
+          "PGM_MODE_ABSOLUTE" = 1,
+          "PGM_MODE_FUNCTIONAL" = 2,
+          "PGM_MODE_ABSOLUTE_AND_FUNCTIONAL" = 3
+        };
+        uchar;  /* MAX_SECTORS */
+        uchar;  /* MAX_CTO_PGM */
+        taggedstruct {
+          (block "SECTOR" struct {
+            char[101];  /* SECTOR_NAME */
+            uchar;  /* SECTOR_NUMBER */
+            ulong;  /* Address */
+            ulong;  /* Length  */
+            uchar;  /* CLEAR_SEQUENCE_NUMBER */
+            uchar;  /* PROGRAM_SEQUENCE_NUMBER */
+            uchar;  /* PROGRAM_METHOD */
+          })*;
+          "COMMUNICATION_MODE_SUPPORTED" taggedunion {
+            "BLOCK" taggedstruct {
+              "SLAVE" ;
+              "MASTER" struct {
+                uchar;  /* MAX_BS_PGM */
+                uchar;  /* MIN_ST_PGM */
+              };
+            };
+            "INTERLEAVED" uchar;  /* QUEUE_SIZE_PGM */
+          };
+        };
+      };
+
+      struct Segment {
+        uchar;  /* SEGMENT_NUMBER */
+        uchar;  /* number of pages */
+        uchar;  /* ADDRESS_EXTENSION */
+        uchar;  /* COMPRESSION_METHOD */
+        uchar;  /* ENCRYPTION_METHOD */
+        taggedstruct {
+          block "CHECKSUM" struct {
+            enum {
+              "XCP_ADD_11" = 1,
+              "XCP_ADD_12" = 2,
+              "XCP_ADD_14" = 3,
+              "XCP_ADD_22" = 4,
+              "XCP_ADD_24" = 5,
+              "XCP_ADD_44" = 6,
+              "XCP_CRC_16" = 7,
+              "XCP_CRC_16_CITT" = 8,
+              "XCP_CRC_32" = 9,
+              "XCP_USER_DEFINED" = 255
+            };
+            taggedstruct {
+              "MAX_BLOCK_SIZE" ulong;
+              "EXTERNAL_FUNCTION" char[256];  /* Name of the Checksum.DLL */
+            };
+          };
+          (block "PAGE" struct {
+            uchar;  /* PAGE_NUMBER */
+            enum {
+              "ECU_ACCESS_NOT_ALLOWED" = 0,
+              "ECU_ACCESS_WITHOUT_XCP_ONLY" = 1,
+              "ECU_ACCESS_WITH_XCP_ONLY" = 2,
+              "ECU_ACCESS_DONT_CARE" = 3
+            };
+            enum {
+              "XCP_READ_ACCESS_NOT_ALLOWED" = 0,
+              "XCP_READ_ACCESS_WITHOUT_ECU_ONLY" = 1,
+              "XCP_READ_ACCESS_WITH_ECU_ONLY" = 2,
+              "XCP_READ_ACCESS_DONT_CARE" = 3
+            };
+            enum {
+              "XCP_WRITE_ACCESS_NOT_ALLOWED" = 0,
+              "XCP_WRITE_ACCESS_WITHOUT_ECU_ONLY" = 1,
+              "XCP_WRITE_ACCESS_WITH_ECU_ONLY" = 2,
+              "XCP_WRITE_ACCESS_DONT_CARE" = 3
+            };
+            taggedstruct {
+              "INIT_SEGMENT" uchar;  /* references segment that initialises this page */
+            };
+          })*;
+          (block "ADDRESS_MAPPING" struct {
+            ulong;  /* source address */
+            ulong;  /* destination address */
+            ulong;  /* length */
+          })*;
+          "PGM_VERIFY" ulong;  /* verification value for PGM */
+        };
+      };
+
+      taggedstruct Common_Parameters {
+        block "PROTOCOL_LAYER" struct Protocol_Layer;
+        block "SEGMENT" struct Segment;
+        block "DAQ" struct Daq;
+        block "PAG" struct Pag;
+        block "PGM" struct Pgm;
+        block "DAQ_EVENT" taggedunion Daq_Event;
+      };
+
+      struct CAN_Parameters {
+        uint;  /* XCP on CAN version, currentl 0x0100 */
+        taggedstruct {
+          "CAN_ID_BROADCAST" ulong;  /* Auto-detection CAN-ID */
+          "CAN_ID_MASTER" ulong;  /* CMD/STIM CAN-ID */
+          "CAN_ID_SLAVE" ulong;  /* RES/ERR/EV/SERV/DAQ CAN-ID */
+          "BAUDRATE" ulong;  /* Baudrate in Hz */
+          "SAMPLE_POINT" uchar;  /* Sample point in  of bit time */
+          "SAMPLE_RATE" enum {
+            "SINGLE" = 1,
+            "TRIPLE" = 3
+          };
+          "BTL_CYCLES" uchar;  /* slots per bit time */
+          "SJW" uchar;
+          "SYNC_EDGE" enum {
+            "SINGLE" = 1,
+            "DUAL" = 2
+          };
+          "MAX_DLC_REQUIRED" ;  /* master to slave frames */
+          (block "DAQ_LIST_CAN_ID" struct {
+            uint;  /* reference to DAQ_LIST_NUMBER */
+            taggedstruct {
+              "VARIABLE" ;
+              "FIXED" ulong;  /* this DAQ_LIST always on this CAN_ID */
+            };
+          })*;
+        };
+      };
+
+      struct SxI_Parameters {
+        uint;  /* XCP on SxI version, currently 0x0100 */
+        ulong;  /* BAUDRATE [Hz] */
+        taggedstruct {
+          "ASYNCH_FULL_DUPLEX_MODE" struct {
+            enum {
+              "PARITY_NONE" = 0,
+              "PARITY_ODD" = 1,
+              "PARITY_EVEN" = 2
+            };
+            enum {
+              "ONE_STOP_BIT" = 1,
+              "TWO_STOP_BITS" = 2
+            };
+          };
+          "SYNCH_FULL_DUPLEX_MODE_BYTE" ;
+          "SYNCH_FULL_DUPLEX_MODE_WORD" ;
+          "SYNCH_FULL_DUPLEX_MODE_DWORD" ;
+          "SYNCH_MASTER_SLAVE_MODE_BYTE" ;
+          "SYNCH_MASTER_SLAVE_MODE_WORD" ;
+          "SYNCH_MASTER_SLAVE_MODE_DWORD" ;
+        };
+        enum {
+          "HEADER_LEN_BYTE" = 0,
+          "HEADER_LEN_CTR_BYTE" = 1,
+          "HEADER_LEN_FILL_BYTE" = 2,
+          "HEADER_LEN_WORD" = 3,
+          "HEADER_LEN_CTR_WORD" = 4,
+          "HEADER_LEN_FILL_WORD" = 5
+        };
+        enum {
+          "NO_CHECKSUM" = 0,
+          "CHECKSUM_BYTE" = 1,
+          "CHECKSUM_WORD" = 2
+        };
+      };
+
+      struct TCP_IP_Parameters {
+        uint;  /* XCP on TCP_IP version, currently 0x0100 */
+        uint;  /* PORT */
+        taggedunion {
+          "HOST_NAME" char[256];
+          "ADDRESS" char[15];
+        };
+      };
+
+      struct UDP_Parameters {
+        uint;  /* XCP on UDP version, currently 0x0100 */
+        uint;  /* PORT */
+        taggedunion {
+          "HOST_NAME" char[256];
+          "ADDRESS" char[15];
+        };
+      };
+
+      struct ep_parameters {
+        uchar;  /* ENDPOINT_NUMBER, not endpoint address */
+        enum {
+          "BULK_TRANSFER" = 2,
+          "INTERRUPT_TRANSFER" = 3
+        };
+        uint;  /* wMaxPacketSize: Maximum packet  
+ size of endpoint in bytes       */
+        uchar;  /* bInterval: polling of endpoint  */
+        enum {
+          "MESSAGE_PACKING_SINGLE" = 0,
+          "MESSAGE_PACKING_MULTIPLE" = 1,
+          "MESSAGE_PACKING_STREAMING" = 2
+        };
+        enum {
+          "ALIGNMENT_8_BIT" = 0,
+          "ALIGNMENT_16_BIT" = 1,
+          "ALIGNMENT_32_BIT" = 2,
+          "ALIGNMENT_64_BIT" = 3
+        };
+        taggedstruct {
+          "RECOMMENDED_HOST_BUFSIZE" uint;  /* Recommended size for the host 
+ buffer size. The size is defined
+ as multiple of wMaxPacketSize.  */
+        };
+      };  /* end of ep_parameters */
+
+      struct USB_Parameters {
+        uint;  /* XCP on USB version  
+ e.g. "1.0" = 0x0100 */
+        uint;  /* Vendor ID                       */
+        uint;  /* Product ID                      */
+        uchar;  /* Number of interface             */
+        enum {
+          "HEADER_LEN_BYTE" = 0,
+          "HEADER_LEN_CTR_BYTE" = 1,
+          "HEADER_LEN_FILL_BYTE" = 2,
+          "HEADER_LEN_WORD" = 3,
+          "HEADER_LEN_CTR_WORD" = 4,
+          "HEADER_LEN_FILL_WORD" = 5
+        };
+        taggedunion {
+          block "OUT_EP_CMD_STIM" struct ep_parameters;
+        };
+        taggedunion {
+          block "IN_EP_RESERR_DAQ_EVSERV" struct ep_parameters;
+        };
+        taggedstruct {
+          "ALTERNATE_SETTING_NO" uchar;  /* Number of alternate setting   */
+          "INTERFACE_STRING_DESCRIPTOR" char[101];
+          (block "OUT_EP_ONLY_STIM" struct ep_parameters)*;
+          (block "IN_EP_ONLY_DAQ" struct ep_parameters)*;
+          block "IN_EP_ONLY_EVSERV" struct ep_parameters;
+          (block "DAQ_LIST_USB_ENDPOINT" struct {
+            uint;  /* reference to DAQ_LIST_NUMBER          */
+            taggedstruct {
+              "FIXED_IN" uchar;  /* this DAQ list always                
+ ENDPOINT_NUMBER, not endpoint address */
+              "FIXED_OUT" uchar;  /* this STIM list always               
+ ENDPOINT_NUMBER, not endpoint address */
+            };
+          })*;  /* end of DAQ_LIST_USB_ENDPOINT */
+        };  /* end of optional */
+      };
+
+      struct SIMULINK_Parameters {
+        taggedstruct {
+          "MODEL_NAME" char[64];
+        };
+      };
+
+      enum packet_assignment_type {
+        "NOT_ALLOWED" = 0,
+        "FIXED" = 1,
+        "VARIABLE_INITIALISED" = 2,
+        "VARIABLE" = 3
+      };  /* end of packet_assignment_type */
+
+      struct buffer {
+        uchar;  /* FLX_BUF */
+        taggedstruct {
+          "MAX_FLX_LEN_BUF" taggedunion {
+            "FIXED" uchar;  /* constant value */
+            "VARIABLE" uchar;  /* initial value */
+          };  /* end of MAX_FLX_LEN_BUF */
+          block "LPDU_ID" taggedstruct {
+            "FLX_SLOT_ID" taggedunion {
+              "FIXED" uint;
+              "VARIABLE" taggedstruct {
+                "INITIAL_VALUE" uint;
+              };
+            };  /* end of FLX_SLOT_ID */
+            "OFFSET" taggedunion {
+              "FIXED" uchar;
+              "VARIABLE" taggedstruct {
+                "INITIAL_VALUE" uchar;
+              };
+            };  /* end of OFFSET */
+            "CYCLE_REPETITION" taggedunion {
+              "FIXED" uchar;
+              "VARIABLE" taggedstruct {
+                "INITIAL_VALUE" uchar;
+              };
+            };  /* end of CYCLE_REPETITION */
+            "CHANNEL" taggedunion {
+              "FIXED" enum {
+                "A" = 0,
+                "B" = 1
+              };
+              "VARIABLE" taggedstruct {
+                "INITIAL_VALUE" enum {
+                  "A" = 0,
+                  "B" = 1
+                };
+              };
+            };  /* end of CHANNEL */
+          };  /* end of LPDU_ID */
+          block "XCP_PACKET" taggedstruct {
+            "CMD" enum packet_assignment_type;  /* end of CMD     */
+            "RES_ERR" enum packet_assignment_type;  /* end of RES_ERR */
+            "EV_SERV" enum packet_assignment_type;  /* end of EV_SERV */
+            "DAQ" enum packet_assignment_type;  /* end of DAQ     */
+            "STIM" enum packet_assignment_type;  /* end of STIM    */
+          };  /* end of XCP_PACKET */
+        };
+      };  /* end of buffer */
+
+      struct FLX_Parameters {
+
+        uint;              /* XCP on FlexRay version  */
+                           /* e.g. "1.0" = 0x0100 */
+
+        uint;              /* T1_FLX [ms] */
+
+        char[256];         /* FIBEX-file */
+                           /* including CHI information */
+                           /* including extension */
+                           /* without path */
+
+        char[256];         /* Cluster-ID */
+
+        uchar;             /* NAX */
+
+        enum { 
+          "HEADER_NAX"              = 0,
+          "HEADER_NAX_FILL"         = 1,
+          "HEADER_NAX_CTR"          = 2,
+          "HEADER_NAX_FILL3"        = 3,
+          "HEADER_NAX_CTR_FILL2"    = 4,
+          "HEADER_NAX_LEN"          = 5,
+          "HEADER_NAX_CTR_LEN"      = 6,
+          "HEADER_NAX_FILL2_LEN"    = 7,
+          "HEADER_NAX_CTR_FILL_LEN" = 8
+        };
+        enum {
+          "PACKET_ALIGNMENT_8" = 0,
+          "PACKET_ALIGNMENT_16" = 1,
+          "PACKET_ALIGNMENT_32" = 2
+        };
+        taggedunion {
+          block "INITIAL_CMD_BUFFER" struct buffer;
+        };
+        taggedunion {
+          block "INITIAL_RES_ERR_BUFFER" struct buffer;
+        };
+        taggedstruct {
+          (block "POOL_BUFFER" struct buffer)*;
+        };
+      };
+
+      block "IF_DATA" taggedunion if_data {
+
+        "CANAPE_EXT" struct {
+          int;             /* version number */
+          taggedstruct {
+            "LINK_MAP" struct {
+              char[256];   /* segment name */
+              long;        /* base address of the segment */
+              uint;        /* address extension of the segment */
+              uint;        /* flag: address is relative to DS */
+              long;        /* offset of the segment address */
+              uint;        /* datatypValid */
+              uint;        /* enum datatyp */
+              uint;        /* bit offset of the segment */
+            };
+            "DISPLAY" struct {
+              long;        /* display color */
+              double;      /* minimal display value (phys)*/
+              double;      /* maximal display value (phys)*/
+            };
+            "VIRTUAL_CONVERSION" struct {
+              char[256];   /* name of the conversion formula */
+            };
+          };
+        };
+        "CANAPE_MODULE" struct {
+          taggedstruct {
+            ("RECORD_LAYOUT_STEPSIZE" struct {
+              char[256];   /* name of record layout*/
+              uint;        /* stepsize for FNC_VALUES */
+              uint;        /* stepsize for AXIS_PTS_X */
+              uint;        /* stepsize for AXIS_PTS_Y */
+              uint;        /* stepsize for AXIS_PTS_Z */
+              uint;        /* stepsize for AXIS_PTS_4 */
+              uint;        /* stepsize for AXIS_PTS_5 */
+            })*;
+          };
+        };
+        /*********************************************************/
+        /*   XCP                                                 */
+        /*********************************************************/
+        "XCP" struct {
+          taggedstruct Common_Parameters;  /* default parameters */
+          taggedstruct {
+            block "XCP_ON_CAN" struct {
+              struct CAN_Parameters;  /* specific for CAN */
+              taggedstruct Common_Parameters;  /* overruling of default */
+            };
+            block "XCP_ON_SxI" struct {
+              struct SxI_Parameters;  /* specific for SxI */
+              taggedstruct Common_Parameters;  /* overruling of default */
+            };
+            block "XCP_ON_TCP_IP" struct {
+              struct TCP_IP_Parameters;  /* specific for TCP_IP */
+              taggedstruct Common_Parameters;  /* overruling of default */
+            };
+            block "XCP_ON_UDP_IP" struct {
+              struct UDP_Parameters;  /* specific for UDP */
+              taggedstruct Common_Parameters;  /* overruling of default */
+            };
+            block "XCP_ON_USB" struct {
+              struct USB_Parameters;  /* specific for USB      */
+              taggedstruct Common_Parameters;  /* overruling of default */
+            };
+            block "XCP_ON_FLX" struct {
+              struct FLX_Parameters;  /* specific for FlexRay  */
+              taggedstruct Common_Parameters;  /* overruling of default */
+            };
+          };
+        };
+      };
+
+    /end A2ML
+
+
+
+    /begin IF_DATA XCP
+      
+      
+      /begin PROTOCOL_LAYER
+        0x0100
+        0x03E8
+        0x00C8
+        0x0000
+        0x0000
+        0x0000
+        0x0000
+        0x0000
+        0xFC
+        0x0578
+        BYTE_ORDER_MSB_LAST
+        ADDRESS_GRANULARITY_BYTE
+        OPTIONAL_CMD ALLOC_ODT_ENTRY
+        OPTIONAL_CMD ALLOC_ODT
+        OPTIONAL_CMD ALLOC_DAQ
+        OPTIONAL_CMD FREE_DAQ
+        OPTIONAL_CMD GET_DAQ_RESOLUTION_INFO
+        OPTIONAL_CMD GET_DAQ_PROCESSOR_INFO
+        OPTIONAL_CMD START_STOP_SYNCH
+        OPTIONAL_CMD START_STOP_DAQ_LIST
+        OPTIONAL_CMD SET_DAQ_LIST_MODE
+        OPTIONAL_CMD WRITE_DAQ
+        OPTIONAL_CMD SET_DAQ_PTR
+        OPTIONAL_CMD GET_CAL_PAGE
+        OPTIONAL_CMD SET_CAL_PAGE
+        OPTIONAL_CMD COPY_CAL_PAGE
+        OPTIONAL_CMD SHORT_DOWNLOAD
+        OPTIONAL_CMD DOWNLOAD_MAX
+        OPTIONAL_CMD DOWNLOAD
+        OPTIONAL_CMD SHORT_UPLOAD
+        OPTIONAL_CMD UPLOAD
+        OPTIONAL_CMD SET_MTA
+      /end PROTOCOL_LAYER
+
+      
+      /begin DAQ
+        DYNAMIC
+        0x0000
+        0x0080
+        0x00
+        OPTIMISATION_TYPE_DEFAULT
+        ADDRESS_EXTENSION_FREE
+        IDENTIFICATION_FIELD_TYPE_RELATIVE_WORD_ALIGNED
+        GRANULARITY_ODT_ENTRY_SIZE_DAQ_BYTE
+        0xFF
+        OVERLOAD_INDICATION_PID
+        PRESCALER_SUPPORTED 
+        
+        /begin STIM
+          GRANULARITY_ODT_ENTRY_SIZE_STIM_BYTE
+          0xFF
+          
+        /end STIM
+
+        /begin TIMESTAMP_SUPPORTED
+          0x0001
+          SIZE_DWORD
+          UNIT_1US
+          TIMESTAMP_FIXED 
+        /end TIMESTAMP_SUPPORTED
+
+        
+        /begin EVENT
+          "250 us"
+          "250 us"
+          0x0000
+          DAQ
+          0xFF
+          0x19
+          0x04
+          0x00
+        /end EVENT
+
+      /end DAQ
+
+      
+      /begin XCP_ON_UDP_IP
+        0x0100
+        0x15B3
+        ADDRESS "172.16.19.52"
+      /end XCP_ON_UDP_IP
+
+    /end IF_DATA
+
+
+
+    /begin MOD_PAR "MOD PAR Comment Goes Here"
+
+       /begin MEMORY_SEGMENT FieldOrientedController_HIL_cal_impl
+       "FieldOrientedController_HIL_cal_impl"
+       DATA
+       FLASH
+       INTERN
+       0x002C0060
+       0x6E0
+       -1 -1 -1 -1 -1
+       /begin IF_DATA XCP
+         /begin SEGMENT
+            0x00
+            0x02
+            0x00
+            0x00
+            0x00
+            /begin PAGE
+              0x00
+              ECU_ACCESS_DONT_CARE
+              XCP_READ_ACCESS_DONT_CARE
+              XCP_WRITE_ACCESS_NOT_ALLOWED
+            /end PAGE
+            /begin PAGE
+              0x01
+              ECU_ACCESS_DONT_CARE
+              XCP_READ_ACCESS_DONT_CARE
+              XCP_WRITE_ACCESS_DONT_CARE
+            /end PAGE
+          /end SEGMENT
+        /end IF_DATA
+        /end MEMORY_SEGMENT
+       /begin MEMORY_SEGMENT PMSM_Plant_Model_cal_impl
+       "PMSM_Plant_Model_cal_impl"
+       DATA
+       FLASH
+       INTERN
+       0x002C09A0
+       0x50
+       -1 -1 -1 -1 -1
+       /begin IF_DATA XCP
+         /begin SEGMENT
+            0x01
+            0x02
+            0x00
+            0x00
+            0x00
+            /begin PAGE
+              0x00
+              ECU_ACCESS_DONT_CARE
+              XCP_READ_ACCESS_DONT_CARE
+              XCP_WRITE_ACCESS_NOT_ALLOWED
+            /end PAGE
+            /begin PAGE
+              0x01
+              ECU_ACCESS_DONT_CARE
+              XCP_READ_ACCESS_DONT_CARE
+              XCP_WRITE_ACCESS_DONT_CARE
+            /end PAGE
+          /end SEGMENT
+        /end IF_DATA
+        /end MEMORY_SEGMENT
+
+    /end MOD_PAR
+
+    /begin MOD_COMMON  "Mod Common Comment Here"
+      BYTE_ORDER     MSB_LAST
+    /end MOD_COMMON
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.ADCPhaseCurrentCount_P1 ""  
+    VALUE 0x002C0398 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.ADCPhaseCurrentCount_P2 ""  
+    VALUE 0x002C03B0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.ADCPhaseCurrentCount_P3 ""  
+    VAL_BLK 0x002C03C8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        2 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.ADCPhaseCurrentCount_P4 ""  
+    VAL_BLK 0x002C03E8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        2 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.ADCPhaseCurrentCount_P5 ""  
+    VAL_BLK 0x002C0408 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        2 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.ADCPhaseCurrentCount_P6 ""  
+    VALUE 0x002C0428 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.ADCPhaseCurrentCount_P7 ""  
+    VALUE 0x002C0440 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.ADCPhaseCurrentCount_P8 ""  
+    VALUE 0x002C0458 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.CoSInterrupt2_P1 ""  
+    VALUE 0x002C05C0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.CoSInterrupt2_P10 ""  
+    VALUE 0x002C0698 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.CoSInterrupt2_P11 ""  
+    VALUE 0x002C06B0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.CoSInterrupt2_P12 ""  
+    VALUE 0x002C06C8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.CoSInterrupt2_P13 ""  
+    VALUE 0x002C06E0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.CoSInterrupt2_P14 ""  
+    VALUE 0x002C06F8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.CoSInterrupt2_P15 ""  
+    VALUE 0x002C0710 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.CoSInterrupt2_P16 ""  
+    VALUE 0x002C0728 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.CoSInterrupt2_P2 ""  
+    VALUE 0x002C05D8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.CoSInterrupt2_P3 ""  
+    VALUE 0x002C05F0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.CoSInterrupt2_P4 ""  
+    VALUE 0x002C0608 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.CoSInterrupt2_P5 ""  
+    VALUE 0x002C0620 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.CoSInterrupt2_P6 ""  
+    VALUE 0x002C0638 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.CoSInterrupt2_P7 ""  
+    VALUE 0x002C0650 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.CoSInterrupt2_P8 ""  
+    VALUE 0x002C0668 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.CoSInterrupt2_P9 ""  
+    VALUE 0x002C0680 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.CommandType_Value ""  
+    VALUE 0x002C0737 Scalar_UBYTE 0 FieldOrientedController_HIL_CM_uint8 0 255  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.ConnectCurrentSensor_Value ""  
+    VALUE 0x002C0734 Scalar_BOOLEAN 0 FieldOrientedController_HIL_CM_logical 0 1  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.Digitalinput_P1 ""  
+    VALUE 0x002C0080 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.Digitalinput_P2 ""  
+    VALUE 0x002C0098 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.Digitalinput_P3 ""  
+    VALUE 0x002C00B0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.Digitalinput_P4 ""  
+    VALUE 0x002C00C8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.Digitalinput_P5 ""  
+    VALUE 0x002C00E0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.Digitalinput_P6 ""  
+    VALUE 0x002C00F8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.EngageMotorBrake_Value ""  
+    VALUE 0x002C0735 Scalar_BOOLEAN 0 FieldOrientedController_HIL_CM_logical 0 1  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.MotorStatus_Value ""  
+    VALUE 0x002C0736 Scalar_BOOLEAN 0 FieldOrientedController_HIL_CM_logical 0 1  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.OverloadOptions_maxOverload ""  
+    VALUE 0x002C0060 Scalar_ULONG 0 FieldOrientedController_HIL_CM_uint32 0 2147483646  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.OverloadOptions_startupDur ""  
+    VALUE 0x002C0064 Scalar_ULONG 0 FieldOrientedController_HIL_CM_uint32 0 2147483646  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.PWMCapture_P1 ""  
+    VALUE 0x002C0110 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.PWMCapture_P10 ""  
+    VALUE 0x002C01F8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.PWMCapture_P11 ""  
+    VALUE 0x002C0210 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.PWMCapture_P12 ""  
+    VAL_BLK 0x002C0228 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.PWMCapture_P13 ""  
+    VAL_BLK 0x002C0250 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.PWMCapture_P14 ""  
+    VALUE 0x002C0278 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.PWMCapture_P15 ""  
+    VALUE 0x002C0290 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.PWMCapture_P2 ""  
+    VALUE 0x002C0128 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.PWMCapture_P3 ""  
+    VAL_BLK 0x002C0140 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.PWMCapture_P4 ""  
+    VALUE 0x002C0168 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.PWMCapture_P5 ""  
+    VALUE 0x002C0180 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.PWMCapture_P6 ""  
+    VALUE 0x002C0198 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.PWMCapture_P7 ""  
+    VALUE 0x002C01B0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.PWMCapture_P8 ""  
+    VALUE 0x002C01C8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.PWMCapture_P9 ""  
+    VALUE 0x002C01E0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.QAE2_P1 ""  
+    VALUE 0x002C0470 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.QAE2_P10 ""  
+    VALUE 0x002C0548 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.QAE2_P11 ""  
+    VALUE 0x002C0560 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.QAE2_P12 ""  
+    VALUE 0x002C0578 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.QAE2_P13 ""  
+    VALUE 0x002C0590 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.QAE2_P14 ""  
+    VALUE 0x002C05A8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.QAE2_P2 ""  
+    VALUE 0x002C0488 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.QAE2_P3 ""  
+    VALUE 0x002C04A0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.QAE2_P4 ""  
+    VALUE 0x002C04B8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.QAE2_P5 ""  
+    VALUE 0x002C04D0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.QAE2_P6 ""  
+    VALUE 0x002C04E8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.QAE2_P7 ""  
+    VALUE 0x002C0500 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.QAE2_P8 ""  
+    VALUE 0x002C0518 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.QAE2_P9 ""  
+    VALUE 0x002C0530 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.TorqueLoad_Value ""  
+    VALUE 0x002C0068 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.VelocityCommand_Value ""  
+    VALUE 0x002C0730 Scalar_FLOAT32_IEEE 0 FieldOrientedController_HIL_CM_single -3.4E+38 3.4E+38  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.uDLookupTable_tableData ""  
+    CURVE 0x002C0738 Lookup1D_UBYTE 0 FieldOrientedController_HIL_CM_uint8 0 255  
+    /begin AXIS_DESCR
+      COM_AXIS FieldOrientedController_HIL_B.velocityCommand FieldOrientedController_HIL_CM_single_rad_s 4 -3.4E+38 3.4E+38  
+      AXIS_PTS_REF                    rtP_velCmdVec
+    /end AXIS_DESCR
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.velocityCommandmotorOn_P1 ""  
+    VALUE 0x002C02A8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.velocityCommandmotorOn_P2 ""  
+    VALUE 0x002C02C0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.velocityCommandmotorOn_P3 ""  
+    VAL_BLK 0x002C02D8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.velocityCommandmotorOn_P4 ""  
+    VALUE 0x002C0300 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.velocityCommandmotorOn_P5 ""  
+    VAL_BLK 0x002C0318 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.velocityCommandmotorOn_P6 ""  
+    VAL_BLK 0x002C0340 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+    MATRIX_DIM                        3 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.velocityCommandmotorOn_P7 ""  
+    VALUE 0x002C0368 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  FieldOrientedController_HIL_cal_impl.velocityCommandmotorOn_P8 ""  
+    VALUE 0x002C0380 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  PMSM_Plant_Model_cal_impl.Bias1_Bias ""  
+    VALUE 0x002C09C8 Scalar_FLOAT64_IEEE 0 PMSM_Plant_Model_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  PMSM_Plant_Model_cal_impl.Constant2_Value ""  
+    VALUE 0x002C09EA Scalar_UWORD 0 PMSM_Plant_Model_CM_uint16 0 65535  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  PMSM_Plant_Model_cal_impl.Constant_Value ""  
+    VALUE 0x002C09EC Scalar_UWORD 0 PMSM_Plant_Model_CM_uint16 0 65535  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  PMSM_Plant_Model_cal_impl.Count_Per_Radian_Gain ""  
+    VALUE 0x002C09E0 Scalar_FLOAT64_IEEE 0 PMSM_Plant_Model_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  PMSM_Plant_Model_cal_impl.Encoder_Index_Position_Value ""  
+    VALUE 0x002C09A8 Scalar_FLOAT64_IEEE 0 PMSM_Plant_Model_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  PMSM_Plant_Model_cal_impl.Gain1_Gain ""  
+    VALUE 0x002C09D0 Scalar_FLOAT64_IEEE 0 PMSM_Plant_Model_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  PMSM_Plant_Model_cal_impl.Gain_Gain ""  
+    VALUE 0x002C09C0 Scalar_FLOAT64_IEEE 0 PMSM_Plant_Model_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  PMSM_Plant_Model_cal_impl.Memory_InitialCondition ""  
+    VALUE 0x002C09EF Scalar_BOOLEAN 0 PMSM_Plant_Model_CM_logical 0 1  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  PMSM_Plant_Model_cal_impl.ModIndex_Gain ""  
+    VALUE 0x002C09E8 Scalar_UWORD 0 PMSM_Plant_Model_CM_ufix16_En26 0.0 0.00097655  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  PMSM_Plant_Model_cal_impl.Neg_Pi_Div_Two_Value ""  
+    VALUE 0x002C09B8 Scalar_FLOAT64_IEEE 0 PMSM_Plant_Model_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  PMSM_Plant_Model_cal_impl.One_Value ""  
+    VALUE 0x002C09EE Scalar_BOOLEAN 0 PMSM_Plant_Model_CM_logical 0 1  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  PMSM_Plant_Model_cal_impl.Pi_Div_Two1_Value ""  
+    VALUE 0x002C09B0 Scalar_FLOAT64_IEEE 0 PMSM_Plant_Model_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  PMSM_Plant_Model_cal_impl.Two_Pi_Value ""  
+    VALUE 0x002C09D8 Scalar_FLOAT64_IEEE 0 PMSM_Plant_Model_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  PMSM_Plant_Model_cal_impl.Zero_Value ""  
+    VALUE 0x002C09A0 Scalar_FLOAT64_IEEE 0 PMSM_Plant_Model_CM_double -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_adcTransducerVoltAtZeroAmpere ""  
+    VAL_BLK 0x002C07D0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double_V -1.7E+308 1.7E+308  
+    MATRIX_DIM                        2 1 
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_adcTransducerVoltPerAmpere ""  
+    VALUE 0x002C07C0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double_V_A -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_discInertia ""  
+    VALUE 0x002C07B8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double_kg_m_m -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_encoderALeadsB ""  
+    VALUE 0x002C0781 Scalar_BOOLEAN 0 FieldOrientedController_HIL_CM_logical 0 1  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_encoderPositionValidAtStartup ""  
+    VALUE 0x002C0780 Scalar_BOOLEAN 0 FieldOrientedController_HIL_CM_logical 0 1  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_encoderRotorPositionAtIndex ""  
+    VALUE 0x002C07B0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double_rad -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_pmsmPolePairs ""  
+    VALUE 0x002C07A8 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double_1 -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_pmsmRotorPositionInit ""  
+    VALUE 0x002CB508 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double_rad -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_pmsmRotorVelocityInit ""  
+    VALUE 0x002CB500 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double_rad_s -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin CHARACTERISTIC  rtP_pwmCounterMax ""  
+    VALUE 0x002C07A0 Scalar_FLOAT64_IEEE 0 FieldOrientedController_HIL_CM_double_1 -1.7E+308 1.7E+308  
+  /end CHARACTERISTIC 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.APmode ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CB080
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.CastToBoolean ""  
+    UBYTE FieldOrientedController_HIL_CM_logical_1       0             0       0 1  
+    ECU_ADDRESS                       0x002CB161
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.CastToDouble ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CB108
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.CastToDouble1 ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CB110
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.CastToDouble2 ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double_1       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CB118
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.CastToDouble3 ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double_V       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x002CB120
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.ConnectCurrentSensor ""  
+    UBYTE FieldOrientedController_HIL_CM_logical_1       0             0       0 1  
+    ECU_ADDRESS                       0x002CB15F
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.DataTypeConversion ""  
+    SLONG FieldOrientedController_HIL_CM_commandTypeEnum_1       0             0       0 3  
+    ECU_ADDRESS                       0x002CB14C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.Digitalinput ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double_1       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CB090
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.DutyCycle2PWMCompare ""  
+    UWORD FieldOrientedController_HIL_CM_uint16_1       0             0       0 65535  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        3 
+    ECU_ADDRESS                       0x002CB150
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.EngageMotorBrake ""  
+    UBYTE FieldOrientedController_HIL_CM_logical_1       0             0       0 1  
+    ECU_ADDRESS                       0x002CB160
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.ExtractDesiredBits ""  
+    UBYTE FieldOrientedController_HIL_CM_ufix1_E1       0             0       0.0 2  
+    ECU_ADDRESS                       0x002CB15B
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.ExtractDesiredBits_d ""  
+    UBYTE FieldOrientedController_HIL_CM_ufix1       0             0       0.0 1  
+    ECU_ADDRESS                       0x002CB15D
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.ModifyScalingOnly ""  
+    UBYTE FieldOrientedController_HIL_CM_ufix1_E1       0             0       0.0 2  
+    ECU_ADDRESS                       0x002CB15C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.ModifyScalingOnly_c ""  
+    UBYTE FieldOrientedController_HIL_CM_ufix1       0             0       0.0 1  
+    ECU_ADDRESS                       0x002CB15E
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.MotorStatus ""  
+    UBYTE FieldOrientedController_HIL_CM_logical_1       0             0       0 1  
+    ECU_ADDRESS                       0x002CB162
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.OverloadOptionsCore ""  
+    ULONG FieldOrientedController_HIL_CM_uint32       0             0       0 2147483646  
+    ECU_ADDRESS                       0x002CB138
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.PWMDuty ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        3 
+    ECU_ADDRESS                       0x002CB098
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.TorqueLoad ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double_N_m       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CB088
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.UnitConversion ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double_rpm       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CB130
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.VelocityCommand ""  
+    FLOAT32_IEEE FieldOrientedController_HIL_CM_single_rad_sec       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002CB144
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.directCurrent ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double_A       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CB0C8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.electricalPosition ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double_rad       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CB0E8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.electricalVelocity ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double_rad_sec       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CB0F8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.electromagneticTorque ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double_N_m       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CB0D8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.encoderCount ""  
+    UWORD FieldOrientedController_HIL_CM_uint16_1       0             0       0 65535  
+    ECU_ADDRESS                       0x002CB158
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.encoderIndexFound ""  
+    UWORD FieldOrientedController_HIL_CM_uint16_1       0             0       0 65535  
+    ECU_ADDRESS                       0x002CB156
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.phaseCurrentA ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double_A       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CB0B0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.phaseCurrentB ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double_A       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CB0B8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.phaseCurrentC ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double_A       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CB0C0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.quadratureCurrent ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double_A       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CB0D0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.rotorPosition ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double_rad       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CB0E0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.rotorVelocity ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double_rad_sec       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CB0F0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.rotorVelocity_l ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double_rad_sec       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CB100
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.transducerVoltage ""  
+    FLOAT32_IEEE FieldOrientedController_HIL_CM_single_V       0             0       -3.4E+38 3.4E+38  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x002CB13C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.uDLookupTable ""  
+    UBYTE FieldOrientedController_HIL_CM_uint8       0             0       0 255  
+    ECU_ADDRESS                       0x002CB15A
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_B.velocityCommand ""  
+    FLOAT32_IEEE FieldOrientedController_HIL_CM_single_rad_sec       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002CB148
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_U.controllerInputs_h.commandType ""  
+    SLONG FieldOrientedController_HIL_CM_commandTypeEnum       0             0       0 3  
+    ECU_ADDRESS                       0x002CAE94
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_U.controllerInputs_h.motorOn ""  
+    UBYTE FieldOrientedController_HIL_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CAE90
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_U.controllerInputs_h.velocityCommand ""  
+    FLOAT32_IEEE FieldOrientedController_HIL_CM_single       0             0       -3.4E+38 3.4E+38  
+    ECU_ADDRESS                       0x002CAE98
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_U.physicalInputs_f.connectCurrentSensor ""  
+    UBYTE FieldOrientedController_HIL_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CAE88
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_U.physicalInputs_f.motorBrake ""  
+    UBYTE FieldOrientedController_HIL_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CAE89
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_U.physicalInputs_f.torqueLoad ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CAE80
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_Y.mode ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CAE60
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  FieldOrientedController_HIL_Y.rotorVelocity ""  
+    FLOAT64_IEEE FieldOrientedController_HIL_CM_double_rad_sec       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CAE68
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.Add ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CC740
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.Bias1 ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        3 
+    ECU_ADDRESS                       0x002CC438
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.CastToDouble ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double_1       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CC3A0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.CastToDouble_b ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double_1       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        3 
+    ECU_ADDRESS                       0x002CC4F0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.Count_Data_Type ""  
+    UWORD PMSM_Plant_Model_CM_uint16       0             0       0 65535  
+    ECU_ADDRESS                       0x002CC780
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.Count_Per_Radian ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CC750
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.Gain ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        3 
+    ECU_ADDRESS                       0x002CC420
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.Gain1 ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        3 
+    ECU_ADDRESS                       0x002CC718
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.INPUT_1_1_1 ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        4 
+    ECU_ADDRESS                       0x002CC3A8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.INPUT_2_1_1 ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        4 
+    ECU_ADDRESS                       0x002CC508
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.INPUT_2_1_2 ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        4 
+    ECU_ADDRESS                       0x002CC528
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.INPUT_2_1_3 ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        4 
+    ECU_ADDRESS                       0x002CC548
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.INPUT_3_1_1 ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        4 
+    ECU_ADDRESS                       0x002CC400
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.INPUT_4_1_1 ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        4 
+    ECU_ADDRESS                       0x002CC450
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.INPUT_5_1_1 ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        4 
+    ECU_ADDRESS                       0x002CC470
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.INPUT_6_1_1 ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        4 
+    ECU_ADDRESS                       0x002CC490
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.INPUT_7_1_1 ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        4 
+    ECU_ADDRESS                       0x002CC4B0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.INPUT_8_1_1 ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        4 
+    ECU_ADDRESS                       0x002CC4D0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.INPUT_9_1_1 ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        4 
+    ECU_ADDRESS                       0x002CC3C8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.Logical_OR ""  
+    UBYTE PMSM_Plant_Model_CM_logical_1       0             0       0 1  
+    ECU_ADDRESS                       0x002CC78C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.MathFunction ""  
+    UWORD PMSM_Plant_Model_CM_uint16       0             0       0 65535  
+    ECU_ADDRESS                       0x002CC782
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.Memory ""  
+    UBYTE PMSM_Plant_Model_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CC78A
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.Mod ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CC748
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.ModIndex ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        3 
+    ECU_ADDRESS                       0x002CC3E8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.OUTPUT_1_0 ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        6 
+    ECU_ADDRESS                       0x002CC6D0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.Position_Difference ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CC758
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.Product ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x002CC760
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.RTP_1 ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CC568
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.STATE_1 ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        44 
+    ECU_ADDRESS                       0x002CC570
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.Subtract1 ""  
+    UWORD PMSM_Plant_Model_CM_uint16       0             0       0 65535  
+    ECU_ADDRESS                       0x002CC786
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.Sum ""  
+    UWORD PMSM_Plant_Model_CM_uint16       0             0       0 65535  
+    ECU_ADDRESS                       0x002CC788
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.Switch ""  
+    UWORD PMSM_Plant_Model_CM_uint16_1       0             0       0 65535  
+    ECU_ADDRESS                       0x002CC784
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.Switch1 ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CC738
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.Switch_o ""  
+    UBYTE PMSM_Plant_Model_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CC78B
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.currentGreaterThanIndex ""  
+    UBYTE PMSM_Plant_Model_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CC794
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.currentLessThanIndex ""  
+    UBYTE PMSM_Plant_Model_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CC78D
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.d ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CC700
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.enabled ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x002CC770
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.encoderPassedIndexPulse ""  
+    UBYTE PMSM_Plant_Model_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CC799
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.notWrapped ""  
+    UBYTE PMSM_Plant_Model_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CC796
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.passedNegativeDirection ""  
+    UBYTE PMSM_Plant_Model_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CC797
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.passedPositiveDirection ""  
+    UBYTE PMSM_Plant_Model_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CC798
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.previousGreaterThanIndex ""  
+    UBYTE PMSM_Plant_Model_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CC793
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.previousLessThanIndex ""  
+    UBYTE PMSM_Plant_Model_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CC791
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.previousPosition ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CC730
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.q ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CC708
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.u ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CC710
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.wrapAroundIndexGreaterThanPi ""  
+    UBYTE PMSM_Plant_Model_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CC792
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.wrapAroundIndexLessThanPi ""  
+    UBYTE PMSM_Plant_Model_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CC795
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.wrapNegativeDirection ""  
+    UBYTE PMSM_Plant_Model_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CC78E
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.wrapPositiveDirection ""  
+    UBYTE PMSM_Plant_Model_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CC78F
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_B.wrapped ""  
+    UBYTE PMSM_Plant_Model_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CC790
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_DW.INPUT_1_1_1_Discrete ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x002CC140
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_DW.INPUT_2_1_1_Discrete ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x002CC1C0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_DW.INPUT_2_1_2_Discrete ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x002CC1D0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_DW.INPUT_2_1_3_Discrete ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x002CC1E0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_DW.INPUT_3_1_1_Discrete ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x002CC160
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_DW.INPUT_4_1_1_Discrete ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x002CC170
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_DW.INPUT_5_1_1_Discrete ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x002CC180
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_DW.INPUT_6_1_1_Discrete ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x002CC190
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_DW.INPUT_7_1_1_Discrete ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x002CC1A0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_DW.INPUT_8_1_1_Discrete ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x002CC1B0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_DW.INPUT_9_1_1_Discrete ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        2 
+    ECU_ADDRESS                       0x002CC150
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_DW.Memory_PreviousInput ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CC2E0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_DW.Memory_PreviousInput_h ""  
+    UBYTE PMSM_Plant_Model_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CC385
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_DW.OUTPUT_1_0_Discrete ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    ECU_ADDRESS                       0x002CC2D8
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_DW.OUTPUT_1_0_FirstOutput ""  
+    UBYTE PMSM_Plant_Model_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CC384
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_DW.OUTPUT_1_0_Modes ""  
+    SLONG PMSM_Plant_Model_CM_int_T       0             0       -2147483648 2147483647  
+    ECU_ADDRESS                       0x002CC37C
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_DW.RTP_1_SetParametersNeeded ""  
+    UBYTE PMSM_Plant_Model_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CC382
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_DW.STATE_1_Discrete ""  
+    FLOAT64_IEEE PMSM_Plant_Model_CM_double       0             0       -1.7E+308 1.7E+308  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        29 
+    ECU_ADDRESS                       0x002CC1F0
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_DW.STATE_1_FirstOutput ""  
+    UBYTE PMSM_Plant_Model_CM_logical       0             0       0 1  
+    ECU_ADDRESS                       0x002CC383
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_DW.STATE_1_Modes ""  
+    SLONG PMSM_Plant_Model_CM_int_T       0             0       -2147483648 2147483647  
+    LAYOUT                            COLUMN_DIR
+    MATRIX_DIM                        15 
+    ECU_ADDRESS                       0x002CC340
+  /end MEASUREMENT 
+
+  /begin MEASUREMENT  PMSM_Plant_Model_DW.Sum_DWORK1 ""  
+    UWORD PMSM_Plant_Model_CM_uint16       0             0       0 65535  
+    ECU_ADDRESS                       0x002CC380
+  /end MEASUREMENT 
+
+  /begin AXIS_PTS  rtP_velCmdVec ""  
+    0x002C0790 FieldOrientedController_HIL_B.velocityCommand Axis_FLOAT32_IEEE 0 FieldOrientedController_HIL_CM_single_rad_s 4 -3.4E+38 3.4E+38  
+  /end AXIS_PTS 
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_commandTypeEnum ""  
+    TAB_VERB "%0.6" ""  
+    COMPU_TAB_REF VTAB_FOR_FieldOrientedController_HIL_CM_commandTypeEnum  
+  /end COMPU_METHOD
+
+  /begin COMPU_VTAB VTAB_FOR_FieldOrientedController_HIL_CM_commandTypeEnum "Enumerated data type: commandTypeEnum"  
+    TAB_VERB 4  
+    0 "commandTypeEnum_Error"  
+    1 "commandTypeEnum_OpenLoop"  
+    2 "commandTypeEnum_CalibrateEncoder"  
+    3 "commandTypeEnum_ClosedLoop"  
+  /end COMPU_VTAB
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_commandTypeEnum_1 ""  
+    TAB_VERB "%0.6" "1"  
+    COMPU_TAB_REF VTAB_FOR_FieldOrientedController_HIL_CM_commandTypeEnum_1  
+  /end COMPU_METHOD
+
+  /begin COMPU_VTAB VTAB_FOR_FieldOrientedController_HIL_CM_commandTypeEnum_1 "Enumerated data type: commandTypeEnum"  
+    TAB_VERB 4  
+    0 "commandTypeEnum_Error"  
+    1 "commandTypeEnum_OpenLoop"  
+    2 "commandTypeEnum_CalibrateEncoder"  
+    3 "commandTypeEnum_ClosedLoop"  
+  /end COMPU_VTAB
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_double ""  
+    IDENTICAL "%15.10" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_double_1 ""  
+    IDENTICAL "%15.10" "1"  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_double_A ""  
+    IDENTICAL "%15.10" "A"  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_double_N_m ""  
+    IDENTICAL "%15.10" "N*m"  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_double_V ""  
+    IDENTICAL "%15.10" "V"  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_double_V_A ""  
+    IDENTICAL "%15.10" "V/A"  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_double_kg_m_m ""  
+    IDENTICAL "%15.10" "kg*m*m"  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_double_rad ""  
+    IDENTICAL "%15.10" "rad"  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_double_rad_s ""  
+    IDENTICAL "%15.10" "rad/s"  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_double_rad_sec ""  
+    IDENTICAL "%15.10" "rad/sec"  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_double_rpm ""  
+    IDENTICAL "%15.10" "rpm"  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_logical ""  
+    IDENTICAL "%1.0" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_logical_1 ""  
+    IDENTICAL "%1.0" "1"  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_single ""  
+    IDENTICAL "%8.6" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_single_V ""  
+    IDENTICAL "%8.6" "V"  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_single_rad_s ""  
+    IDENTICAL "%8.6" "rad/s"  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_single_rad_sec ""  
+    IDENTICAL "%8.6" "rad/sec"  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_ufix1 ""  
+    IDENTICAL "%0.6" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_ufix1_E1 ""  
+    LINEAR "%1.0" ""  
+    COEFFS_LINEAR 2.000000 0.000000  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_uint16_1 ""  
+    IDENTICAL "%5.0" "1"  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_uint32 ""  
+    IDENTICAL "%10.0" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD FieldOrientedController_HIL_CM_uint8 ""  
+    IDENTICAL "%3.0" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD PMSM_Plant_Model_CM_double ""  
+    IDENTICAL "%15.10" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD PMSM_Plant_Model_CM_double_1 ""  
+    IDENTICAL "%15.10" "1"  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD PMSM_Plant_Model_CM_int_T ""  
+    IDENTICAL "customformat" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD PMSM_Plant_Model_CM_logical ""  
+    IDENTICAL "%1.0" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD PMSM_Plant_Model_CM_logical_1 ""  
+    IDENTICAL "%1.0" "1"  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD PMSM_Plant_Model_CM_ufix16_En26 ""  
+    LINEAR "%13.16" ""  
+    COEFFS_LINEAR 0.000000 0.000000  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD PMSM_Plant_Model_CM_uint16 ""  
+    IDENTICAL "%5.0" ""  
+  /end COMPU_METHOD
+
+  /begin COMPU_METHOD PMSM_Plant_Model_CM_uint16_1 ""  
+    IDENTICAL "%5.0" "1"  
+  /end COMPU_METHOD
+
+  /begin  RECORD_LAYOUT Lookup1D_UBYTE
+    FNC_VALUES 1 UBYTE COLUMN_DIR DIRECT
+  /end  RECORD_LAYOUT 
+
+  /begin  RECORD_LAYOUT Scalar_BOOLEAN
+    FNC_VALUES 1 UBYTE COLUMN_DIR DIRECT
+  /end  RECORD_LAYOUT 
+
+  /begin  RECORD_LAYOUT Scalar_FLOAT32_IEEE
+    FNC_VALUES 1 FLOAT32_IEEE COLUMN_DIR DIRECT
+  /end  RECORD_LAYOUT 
+
+  /begin  RECORD_LAYOUT Scalar_FLOAT64_IEEE
+    FNC_VALUES 1 FLOAT64_IEEE COLUMN_DIR DIRECT
+  /end  RECORD_LAYOUT 
+
+  /begin  RECORD_LAYOUT Scalar_SLONG
+    FNC_VALUES 1 SLONG COLUMN_DIR DIRECT
+  /end  RECORD_LAYOUT 
+
+  /begin  RECORD_LAYOUT Scalar_UBYTE
+    FNC_VALUES 1 UBYTE COLUMN_DIR DIRECT
+  /end  RECORD_LAYOUT 
+
+  /begin  RECORD_LAYOUT Scalar_ULONG
+    FNC_VALUES 1 ULONG COLUMN_DIR DIRECT
+  /end  RECORD_LAYOUT 
+
+  /begin  RECORD_LAYOUT Scalar_UWORD
+    FNC_VALUES 1 UWORD COLUMN_DIR DIRECT
+  /end  RECORD_LAYOUT 
+
+  
+  /begin RECORD_LAYOUT Axis_FLOAT32_IEEE
+    AXIS_PTS_X 1 FLOAT32_IEEE INDEX_INCR DIRECT
+  /end RECORD_LAYOUT 
+
+
+  /begin GROUP FieldOrientedController_HIL "FieldOrientedController_HIL" ROOT  
+    /begin REF_CHARACTERISTIC
+      rtP_adcTransducerVoltAtZeroAmpere
+      rtP_adcTransducerVoltPerAmpere
+      rtP_discInertia
+      rtP_encoderRotorPositionAtIndex
+      rtP_pmsmPolePairs
+      rtP_pmsmRotorPositionInit
+      rtP_pmsmRotorVelocityInit
+      rtP_pwmCounterMax
+      rtP_encoderALeadsB
+      rtP_encoderPositionValidAtStartup
+    /end REF_CHARACTERISTIC
+  /end GROUP
+
+  /begin GROUP FieldOrientedController_HIL_U.controllerInputs_h ""  
+    /begin REF_MEASUREMENT
+      FieldOrientedController_HIL_U.controllerInputs_h.motorOn
+      FieldOrientedController_HIL_U.controllerInputs_h.commandType
+      FieldOrientedController_HIL_U.controllerInputs_h.velocityCommand
+    /end REF_MEASUREMENT
+  /end GROUP
+
+  /begin GROUP FieldOrientedController_HIL_U.physicalInputs_f ""  
+    /begin REF_MEASUREMENT
+      FieldOrientedController_HIL_U.physicalInputs_f.torqueLoad
+      FieldOrientedController_HIL_U.physicalInputs_f.connectCurrentSensor
+      FieldOrientedController_HIL_U.physicalInputs_f.motorBrake
+    /end REF_MEASUREMENT
+  /end GROUP
+
+  /begin GROUP PMSM_Plant_Model "PMSM_Plant_Model"  
+    /begin REF_CHARACTERISTIC
+      PMSM_Plant_Model.rtP_adcTransducerVoltAtZeroAmpere
+      PMSM_Plant_Model.rtP_adcTransducerVoltPerAmpere
+      PMSM_Plant_Model.rtP_discInertia
+      PMSM_Plant_Model.rtP_encoderRotorPositionAtIndex
+      PMSM_Plant_Model.rtP_pmsmPolePairs
+      PMSM_Plant_Model.rtP_pmsmRotorPositionInit
+      PMSM_Plant_Model.rtP_pmsmRotorVelocityInit
+      PMSM_Plant_Model.rtP_encoderALeadsB
+      PMSM_Plant_Model.rtP_encoderPositionValidAtStartup
+    /end REF_CHARACTERISTIC
+    /begin REF_MEASUREMENT
+      PMSM_Plant_Model.i_inputs_torqueLoad
+      PMSM_Plant_Model.i_inputs_connectCurrentSensor
+      PMSM_Plant_Model.i_inputs_motorBrake
+      PMSM_Plant_Model.i_commands_inverterEnable
+      PMSM_Plant_Model.i_commands_pwmCompare
+      PMSM_Plant_Model.o_motorMeasurements_phaseCurrentA
+      PMSM_Plant_Model.o_motorMeasurements_phaseCurrentB
+      PMSM_Plant_Model.o_motorMeasurements_phaseCurrentC
+      PMSM_Plant_Model.o_motorMeasurements_directCurrent
+      PMSM_Plant_Model.o_motorMeasurements_quadratureCurrent
+      PMSM_Plant_Model.o_motorMeasurements_electromagneticTorque
+      PMSM_Plant_Model.o_motorMeasurements_rotorPosition
+      PMSM_Plant_Model.o_motorMeasurements_electricalPosition
+      PMSM_Plant_Model.o_motorMeasurements_rotorVelocity
+      PMSM_Plant_Model.o_motorMeasurements_electricalVelocity
+      PMSM_Plant_Model.o_feedback_transducerVoltage
+      PMSM_Plant_Model.o_feedback_encoderIndexFound
+      PMSM_Plant_Model.o_feedback_encoderCount
+    /end REF_MEASUREMENT
+  /end GROUP
+
+  /end MODULE
+
+/end PROJECT
+
